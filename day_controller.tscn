@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://b7gp8qi3rliei"]
+[gd_scene load_steps=2 format=3 uid="uid://b7gp8qi3rliei"]
+
+[ext_resource type="Script" path="res://day_controller.gd" id="1_m7ce6"]
 
 [node name="DayController" type="Node2D"]
+script = ExtResource("1_m7ce6")
