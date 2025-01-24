@@ -1,6 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7gp8qi3rliei"]
+[gd_scene load_steps=4 format=3 uid="uid://b7gp8qi3rliei"]
 
 [ext_resource type="Script" path="res://day_controller.gd" id="1_m7ce6"]
+[ext_resource type="PackedScene" uid="uid://bfsuwlreoxfo1" path="res://user_info.tscn" id="2_oxq5u"]
+[ext_resource type="PackedScene" uid="uid://cho4h0mblipf4" path="res://post.tscn" id="3_0oxcl"]
 
 [node name="DayController" type="Node2D"]
 script = ExtResource("1_m7ce6")
+
+[node name="UserInfo" parent="." instance=ExtResource("2_oxq5u")]
+
+[node name="Post" parent="." instance=ExtResource("3_0oxcl")]
+offset_left = 251.0
+offset_top = 243.0
+offset_right = 898.0
+offset_bottom = 337.0
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1021.0
+offset_top = 32.0
+offset_right = 1124.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+text = "Current Day: "

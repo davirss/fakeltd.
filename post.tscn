@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://cho4h0mblipf4"]
+
+[ext_resource type="Script" path="res://post.gd" id="1_eyp11"]
+
+[node name="Post" type="MarginContainer"]
+offset_right = 647.0
+offset_bottom = 94.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_eyp11")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="RichTextLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "This wil be an absurd news that everyone should know that it's fake but it's not."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Comments" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "💬100"
+
+[node name="Likes" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "❤️8k"
+
+[node name="Share" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "🔗20k"
