@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhdc0ckmuduvf"]
+[gd_scene load_steps=6 format=3 uid="uid://dhdc0ckmuduvf"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_7gb4w"]
 [ext_resource type="PackedScene" uid="uid://jsskjmbbjspf" path="res://bubble/bubble.tscn" id="2_yeahh"]
 [ext_resource type="PackedScene" uid="uid://bc3gn5uh1lea" path="res://Scenes/ven_controller.tscn" id="3_3oy8c"]
+[ext_resource type="Script" path="res://Scenes/spawning_marker.gd" id="3_algbn"]
+[ext_resource type="Script" path="res://Scenes/floating_target.gd" id="3_drd3v"]
 
 [node name="Game" type="Node2D"]
 position = Vector2(0, 1)
@@ -10,10 +12,14 @@ script = ExtResource("1_7gb4w")
 placeholder = ExtResource("2_yeahh")
 
 [node name="Field" type="Node2D" parent="."]
-position = Vector2(62, 62)
 
-[node name="Marker2D" type="Marker2D" parent="Field"]
-position = Vector2(683, 358)
+[node name="SpawningMarker" type="Marker2D" parent="Field"]
+position = Vector2(480, 270)
+script = ExtResource("3_algbn")
+
+[node name="FloatingTarget" type="Marker2D" parent="Field"]
+position = Vector2(640, 360)
+script = ExtResource("3_drd3v")
 
 [node name="VennController" parent="." instance=ExtResource("3_3oy8c")]
 position = Vector2(945, 112)
