@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://b7gp8qi3rliei"]
 
-[ext_resource type="Script" path="res://venn_controller.gd" id="1_i4stf"]
-[ext_resource type="Texture2D" uid="uid://77vq2ov507y5" path="res://left_ven.png" id="2_fqios"]
-[ext_resource type="Texture2D" uid="uid://dowwxqrovabgw" path="res://center.png" id="2_wuk20"]
-[ext_resource type="Texture2D" uid="uid://bkb0qp6gtfrfe" path="res://right_ven.png" id="3_oy34n"]
-[ext_resource type="Texture2D" uid="uid://ch8lw7ecs0v3c" path="res://top_venn.png" id="4_uw1fg"]
-[ext_resource type="Texture2D" uid="uid://brv0ubvbxnocd" path="res://intersection_bot.png" id="5_6hw6f"]
-[ext_resource type="Texture2D" uid="uid://bqd334yrkcd06" path="res://intersection.png" id="6_kaxld"]
-[ext_resource type="Texture2D" uid="uid://10n1qc62legx" path="res://right_intersect.png" id="7_pjr03"]
+[ext_resource type="Script" path="res://Scripts/venn_controller.gd" id="1_i4stf"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/left_ven.png" id="2_fqios"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/center.png" id="2_wuk20"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/right_ven.png" id="3_oy34n"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/top_venn.png" id="4_uw1fg"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/intersection_bot.png" id="5_6hw6f"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/intersection.png" id="6_kaxld"]
+[ext_resource type="Texture2D" path="res://Resources/Venn/right_intersect.png" id="7_pjr03"]
 
 [node name="VennController" type="Node2D"]
 position = Vector2(184, 112)
