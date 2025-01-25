@@ -14,6 +14,8 @@ config/name="FakeInc"
 run/main_scene="res://Menu/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://Resources/icon.svg"
+<<<<<<<HEADrun/main_scene="res://Scenes/day_controller.tscn"
+<<<<<<<Updatedupstreamrun/main_scene="res://field.tscn"
 
 [autoload]
 
