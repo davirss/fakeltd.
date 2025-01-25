@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bre2ojsyoyi3d"
+path="res://.godot/imported/Pop Sound Effects -6.mp3-663516345918963c496b0d4dfe99ef7c.mp3str"
+
+[deps]
+
+source_file="res://Resources/Sounds/Pop Sound Effects -6.mp3"
+dest_files=["res://.godot/imported/Pop Sound Effects -6.mp3-663516345918963c496b0d4dfe99ef7c.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
