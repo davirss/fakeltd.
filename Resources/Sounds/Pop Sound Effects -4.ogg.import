@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c7ilyxmqv227g"
+path="res://.godot/imported/Pop Sound Effects -4.ogg-7b7eb5297a74a712a6e784019f54072e.oggvorbisstr"
+
+[deps]
+
+source_file="res://Resources/Sounds/Pop Sound Effects -4.ogg"
+dest_files=["res://.godot/imported/Pop Sound Effects -4.ogg-7b7eb5297a74a712a6e784019f54072e.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
