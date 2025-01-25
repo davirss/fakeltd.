@@ -6,7 +6,8 @@ class_name Bubble extends BubbleDefinitions
 @onready var mouse_collision_shape = MOUSE_COLLISION_SHAPE
 @onready var body_collision_shape = BODY_COLLISION_SHAPE
 
-var center = Vector2(0, 0)
+
+var floating_target: Marker2D
 
 
 var _distributions: Dictionary = {
@@ -17,6 +18,13 @@ var _distributions: Dictionary = {
 
 var _time_to_convert_milliseconds: float = 5000
 var _ttc_variable_margin_percent: float = 0.3
+
+
+var _variable_size_difference: float
+
+
+func _calculate_variable_size_difference() -> void:
+	_variable_size_difference = randf_range(1.025, 1.3)
 
 
 func _calculate_distribution_ranges() -> void:
@@ -64,16 +72,27 @@ func _update_bubble_state_as_per_distribution() -> void:
 func _prepare_to_grow() -> void:
 	mouse_collision_shape.scale = Vector2(0.0, 0.0)
 	body_collision_shape.scale = Vector2(0.0, 0.0)
-	pass
 
 
 func _ready() -> void:
 	seed(1)
 	randomize()
+	_calculate_variable_size_difference()
 	_calculate_distribution_ranges()
 	_calculate_variable_time_to_convert()
 	_update_debug_color()
 	_prepare_to_grow()
+
+
+func _ease_out_elastic(number: float) -> float:
+	if number == 0:
+		return 0
+	elif number == 1:
+		return 1
+	else:
+		return (
+			pow(2, -10 * number) * sin(((number * 10) - 0.75) * ((2 * PI) / 3))
+		) + 1
 
 
 var _elapsed_time_milliseconds: float = 0.0
@@ -85,9 +104,13 @@ func _process(delta_seconds: float) -> void:
 		BubbleDefinitions.BubbleState.NEUTRAL:
 			time_to_act = _time_to_convert_milliseconds
 			
-			var growth: float = _elapsed_time_milliseconds / time_to_act
-			mouse_collision_shape.scale = Vector2(growth * 1.1, growth * 1.1)
-			body_collision_shape.scale = Vector2(growth, growth)
+			var real_growth: float = _elapsed_time_milliseconds / time_to_act
+			var visual_growth: float = _ease_out_elastic(real_growth)
+			mouse_collision_shape.scale = Vector2(
+				visual_growth * _variable_size_difference,
+				visual_growth * _variable_size_difference
+			)
+			body_collision_shape.scale = Vector2(real_growth, real_growth)
 			
 		BubbleDefinitions.BubbleState.WHATSAPP:
 			time_to_act = _time_to_convert_milliseconds / 3
@@ -100,7 +123,7 @@ func _process(delta_seconds: float) -> void:
 		_elapsed_time_milliseconds = 0.0
 		_update_bubble_state_as_per_distribution()
 	
-	var direction = (center - position).normalized()
+	var direction = (floating_target.position - position).normalized()
 	# Calculate velocity based on direction and speed
 	velocity = direction * bubble_speed
 	# Move and check for collisions
