@@ -1,37 +1,21 @@
 extends Marker2D
 
 
-var _it_margin_px: int = 300
-var _it_variable_margin_percent: float = 0.1
-
-var _it_initial_position: Vector2
+var _floating_target_initial_position: Vector2
+var _ft_variable_margin_percent: float = 0.05
+var _ft_elapsed_time: float = 0.0
+var _ft_orbital_speed: float = 1.6
+var _ft_distance_from_center: int = 240
 
 
 func _ready() -> void:
-	_it_initial_position = position
+	_floating_target_initial_position = position
 
 
 func _process(delta: float) -> void:
-	var inner_translation = Vector2(
-		randf_range(
-			_it_initial_position.x * (1 - _it_variable_margin_percent),
-			_it_initial_position.x * (1 + _it_variable_margin_percent)
-		),
-		randf_range(
-			_it_initial_position.y * (1 - _it_variable_margin_percent),
-			_it_initial_position.y * (1 + _it_variable_margin_percent)
-		),
-	)
+	_ft_elapsed_time += delta
 	
-	var distance: Vector2 = (inner_translation - position).normalized()
-	position += distance
-	
-	if position.x < _it_initial_position.x - _it_margin_px:
-		position.x = _it_initial_position.x - _it_margin_px
-	elif position.x > _it_initial_position.x + _it_margin_px:
-		position.x = _it_initial_position.x + _it_margin_px
-	
-	if position.y < _it_initial_position.y - _it_margin_px:
-		position.y = _it_initial_position.y - _it_margin_px
-	elif position.y > _it_initial_position.y + _it_margin_px:
-		position.y = _it_initial_position.y + _it_margin_px
+	var angle := _ft_orbital_speed * _ft_elapsed_time
+	var rotation := Vector2(sin(angle), cos(angle))
+	position = rotation * _ft_distance_from_center
+	position += _floating_target_initial_position
