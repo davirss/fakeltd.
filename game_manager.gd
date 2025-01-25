@@ -55,7 +55,7 @@ func _on_wrong_bubble_popped() -> void:
 	current_bubbles -= 1
 	pass
 
-func _on_bubble_clicked(state, bubble) -> void:
+func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
 	if (state != selected_group):
 		_on_wrong_bubble_popped()
 		bubble.queue_free()

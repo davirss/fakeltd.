@@ -9,10 +9,13 @@
 [node name="Bubble" type="Node2D"]
 script = ExtResource("1_ufsww")
 
-[node name="Body" type="StaticBody2D" parent="."]
+[node name="Body" type="Area2D" parent="."]
 
 [node name="BubbleCollisionShape" type="CollisionShape2D" parent="Body"]
 shape = SubResource("CircleShape2D_cypwk")
 
 [node name="BubbleSprite" type="Sprite2D" parent="Body"]
 texture = SubResource("ImageTexture_cadl4")
+
+[connection signal="mouse_entered" from="Body" to="." method="_on_body_mouse_entered"]
+[connection signal="mouse_exited" from="Body" to="." method="_on_body_mouse_exited"]
