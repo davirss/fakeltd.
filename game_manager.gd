@@ -18,7 +18,7 @@ var bubble_spawn_countdown = 0
 var bubble_change_cooldown = 5
 var bubble_change_countdown = bubble_change_cooldown
 
-var selected_group = Groups.ONE
+var selected_group = BubbleDefinitions.BubbleState.WHATSAPP
 
 @export var placeholder: PackedScene
 
@@ -28,6 +28,7 @@ func _ready() -> void:
 	# Check if the number of bubbles match the total_bubbles
 	# If it doesn't match, it means that one or more bubbles were popped.
 	# If not, schedule spawn.
+	Global.bubble_clicked.connect(_on_bubble_clicked)
 	_start_round()
 
 func _start_round() -> void:
@@ -54,25 +55,28 @@ func _on_wrong_bubble_popped() -> void:
 	current_bubbles -= 1
 	pass
 
-func _on_correct_bubble_popped(targetGroup) -> void:
-	if (targetGroup != selected_group):
+func _on_bubble_clicked(state, bubble) -> void:
+	if (state != selected_group):
 		_on_wrong_bubble_popped()
+		bubble.queue_free()
 		return
 
-	if targetGroup == Groups.ONE:
+	if state == BubbleDefinitions.BubbleState.WHATSAPP:
 		groupa_popped_bubbles += 1
-	elif targetGroup == Groups.TWO:
+	elif BubbleDefinitions.BubbleState.INSTAGRAM:
 		groupb_popped_bubbles += 1
-	else:
+	elif BubbleDefinitions.BubbleState.FACEBOOK:
 		groupc_popped_bubbles += 1
+	else:
+		_on_wrong_bubble_popped()
+
 		
 	bubble_spawn_countdown = bubble_spawn_cooldown
 	current_bubbles -= 1
+	bubble.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
-		_on_correct_bubble_popped(Groups.ONE)
 
 	if current_bubbles < total_bubles && bubble_spawn_countdown <= 0:
 		current_bubbles += 1
@@ -89,5 +93,3 @@ func _process(delta: float) -> void:
 	if (bubble_spawn_countdown >= 0):
 		bubble_spawn_countdown -= delta
 		print(bubble_spawn_countdown)
-
-enum Groups { ONE, TWO, THREE}

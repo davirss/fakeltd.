@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhdc0ckmuduvf"]
+
+[ext_resource type="Script" path="res://game_manager.gd" id="1_7gb4w"]
+[ext_resource type="PackedScene" uid="uid://jsskjmbbjspf" path="res://bubble/bubble.tscn" id="2_yeahh"]
+
+[node name="Game" type="Node2D"]
+position = Vector2(0, 1)
+script = ExtResource("1_7gb4w")
+placeholder = ExtResource("2_yeahh")
+
+[node name="Field" type="Node2D" parent="."]
+position = Vector2(62, 62)
+
+[node name="Marker2D" type="Marker2D" parent="Field"]
+position = Vector2(247, 103)

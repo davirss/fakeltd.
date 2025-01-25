@@ -90,8 +90,8 @@ func _input(event: InputEvent) -> void:
 		var mouse_click_position: Vector2 = event.position
 		var collision_rect: Rect2 = collision_shape.shape.get_rect()
 		collision_rect.position = self.position - (collision_rect.size / 2)
-		
+		print("Has rect: ", collision_rect.has_point(mouse_click_position))
 		if collision_rect.has_point(mouse_click_position):
-			bubble_state = BubbleDefinitions.BubbleState.NEUTRAL
-			_elapsed_time_milliseconds = 0.0
-			_update_debug_color()
+			print("Has point")
+			# Emit signal of selected bubble
+			Global.bubble_clicked.emit(bubble_state, self)
