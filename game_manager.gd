@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var total_bubles  = 50
+@export var total_bubbles  = 50
 @export var current_bubbles = 0
 
 @export var column_number = 10
@@ -38,10 +38,10 @@ func _start_round() -> void:
 func _spawn_bubbles() -> void:
 	var current_column = 0
 	var current_line = 0
-	for i in total_bubles:
+	for i in total_bubbles:
 		var new_bubble = placeholder.instantiate()
 
-		new_bubble.center = $Field/Marker2D.global_position
+		new_bubble.center = $Field/Marker2D.position
 		new_bubble.position.x = current_column * 20
 		new_bubble.position.y = current_line * 32
 		$Field.add_child(new_bubble)
@@ -53,13 +53,18 @@ func _spawn_bubbles() -> void:
 		current_bubbles += 1
 
 func _on_wrong_bubble_popped() -> void:
-	#total_bubles += 1
 	current_bubbles += 1
+	
 	var new_bubble = placeholder.instantiate()
-	new_bubble.center = $Field/Marker2D.global_position
+	new_bubble.center = $Field/Marker2D.position
+	new_bubble.position.x = randi_range(column_number / 2, column_number / 2 - 1) * 20
+	new_bubble.position.y = randi_range(row_number / 2, row_number / 2 - 1) * 32
 	$Field.add_child(new_bubble)
+	
 	var new_bubble_2 = placeholder.instantiate()
-	new_bubble_2.center = $Field/Marker2D.global_position
+	new_bubble_2.center = $Field/Marker2D.position
+	new_bubble_2.position.x = randi_range(column_number / 2, column_number / 2 - 1) * 20
+	new_bubble_2.position.y = randi_range(row_number / 2, row_number / 2 - 1) * 32
 	$Field.add_child(new_bubble_2)
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
@@ -87,7 +92,9 @@ func _process(delta: float) -> void:
 		#current_bubbles += 1
 		# Spawn new bubble
 		var new_bubble = placeholder.instantiate()
-		new_bubble.position = $Field/Marker2D.global_position
+		new_bubble.center = $Field/Marker2D.position
+		new_bubble.position.x = randi_range(column_number / 2, column_number / 2 - 1) * 20
+		new_bubble.position.y = randi_range(row_number / 2, row_number / 2 - 1) * 32
 		$Field.add_child(new_bubble)
 
 	bubble_change_countdown -= delta

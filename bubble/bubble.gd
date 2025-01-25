@@ -3,7 +3,8 @@ class_name Bubble extends BubbleDefinitions
 @export var bubble_state: BubbleDefinitions.BubbleState
 @export var bubble_speed = 100
 
-@onready var collision_shape = COLLISION_SHAPE
+@onready var mouse_collision_shape = MOUSE_COLLISION_SHAPE
+@onready var body_collision_shape = BODY_COLLISION_SHAPE
 
 var center = Vector2(0, 0)
 
@@ -35,13 +36,13 @@ func _calculate_variable_time_to_convert() -> void:
 func _update_debug_color() -> void:
 	match bubble_state:
 		BubbleDefinitions.BubbleState.NEUTRAL:
-			collision_shape.debug_color = Color.ALICE_BLUE
+			mouse_collision_shape.debug_color = Color.ALICE_BLUE
 		BubbleDefinitions.BubbleState.WHATSAPP:
-			collision_shape.debug_color = Color.LAWN_GREEN
+			mouse_collision_shape.debug_color = Color.LAWN_GREEN
 		BubbleDefinitions.BubbleState.FACEBOOK:
-			collision_shape.debug_color = Color.NAVY_BLUE
+			mouse_collision_shape.debug_color = Color.NAVY_BLUE
 		BubbleDefinitions.BubbleState.INSTAGRAM:
-			collision_shape.debug_color = Color.DEEP_PINK
+			mouse_collision_shape.debug_color = Color.DEEP_PINK
 
 
 func _update_bubble_state_as_per_distribution() -> void:
@@ -60,12 +61,19 @@ func _update_bubble_state_as_per_distribution() -> void:
 	_update_debug_color()
 
 
+func _prepare_to_grow() -> void:
+	mouse_collision_shape.scale = Vector2(0.0, 0.0)
+	body_collision_shape.scale = Vector2(0.0, 0.0)
+	pass
+
+
 func _ready() -> void:
 	seed(1)
 	randomize()
 	_calculate_distribution_ranges()
 	_calculate_variable_time_to_convert()
 	_update_debug_color()
+	_prepare_to_grow()
 
 
 var _elapsed_time_milliseconds: float = 0.0
@@ -76,6 +84,11 @@ func _process(delta_seconds: float) -> void:
 	match (bubble_state):
 		BubbleDefinitions.BubbleState.NEUTRAL:
 			time_to_act = _time_to_convert_milliseconds
+			
+			var growth: float = _elapsed_time_milliseconds / time_to_act
+			mouse_collision_shape.scale = Vector2(growth * 1.1, growth * 1.1)
+			body_collision_shape.scale = Vector2(growth, growth)
+			
 		BubbleDefinitions.BubbleState.WHATSAPP:
 			time_to_act = _time_to_convert_milliseconds / 3
 		BubbleDefinitions.BubbleState.FACEBOOK:
@@ -86,7 +99,6 @@ func _process(delta_seconds: float) -> void:
 	if (_elapsed_time_milliseconds >= time_to_act):
 		_elapsed_time_milliseconds = 0.0
 		_update_bubble_state_as_per_distribution()
-
 	
 	var direction = (center - position).normalized()
 	# Calculate velocity based on direction and speed
