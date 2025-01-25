@@ -10,20 +10,16 @@ class_name Bubble extends BubbleDefinitions
 
 var floating_target: Marker2D
 
-
 var _distributions: Dictionary = {
 	BubbleDefinitions.BubbleState.WHATSAPP: 	0.05,
 	BubbleDefinitions.BubbleState.FACEBOOK: 	0.05,
 	BubbleDefinitions.BubbleState.INSTAGRAM:	0.90,
 }
-
 var _time_to_convert_milliseconds: float = 5000
 var _ttc_variable_margin_percent: float = 0.3
 
-
 var _fixed_size_difference: float
 var _variable_size_difference: float
-
 
 func _calculate_variable_size_difference() -> void:
 	_fixed_size_difference = randf_range(0.025, 0.3)

@@ -8,13 +8,14 @@ var groupa_popped_bubbles = 0
 var groupb_popped_bubbles = 0
 var groupc_popped_bubbles = 0
 
-var bubble_spawn_cooldown = 1
-var bubble_spawn_countdown = 0
+var bubble_spawn_cooldown = 10
+var bubble_spawn_countdown: float = 0
 
 var bubble_change_cooldown = 2
 var bubble_change_countdown = bubble_change_cooldown
 
-var selected_group = BubbleDefinitions.BubbleState.INSTAGRAM
+var selected_group
+var round_started = false
 
 var audio = AudioStreamPlayer.new()
 @export var placeholder: PackedScene
@@ -28,13 +29,35 @@ func _ready() -> void:
 	# If it doesn't match, it means that one or more bubbles were popped.
 	# If not, schedule spawn.
 	Global.bubble_clicked.connect(_on_bubble_clicked)
+	Global.on_venn_pressed.connect(_on_ven_pressed)
+
+func _on_ven_pressed(left, top, right) -> void:
+	$VennController.selected = true
+	if left && !top && !right:
+		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP]
+	elif !left && top && !right:
+		selected_group = [BubbleDefinitions.BubbleState.FACEBOOK]
+	elif !left && !top && right:
+		selected_group = [BubbleDefinitions.BubbleState.INSTAGRAM]
+	elif left && top && !right:
+		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP, BubbleDefinitions.BubbleState.FACEBOOK]
+	elif left && !top && right:
+		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP, BubbleDefinitions.BubbleState.INSTAGRAM]
+	elif !left && top && right:
+		selected_group = [BubbleDefinitions.BubbleState.FACEBOOK, BubbleDefinitions.BubbleState.INSTAGRAM]
+	elif left && top && right:
+		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP, BubbleDefinitions.BubbleState.FACEBOOK, BubbleDefinitions.BubbleState.INSTAGRAM]
+	else:
+		print("Invalid state:", left, top, right)
+	
+	$AnimationPlayer.play("ven_animation")
+	await $AnimationPlayer.animation_finished
 	_start_round()
 
-
 func _start_round() -> void:
+	round_started = true
 	## Spawn the initial_bubbles_amount
 	_spawn_initial_bubbles()
-
 
 func _spawn_initial_bubbles() -> void:
 	for i in initial_bubbles_amount:
@@ -47,19 +70,18 @@ func _on_wrong_bubble_popped() -> void:
 
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
-	if (state != selected_group):
+	if (!selected_group.has(state)):
+		print("Wrong bubble")
 		_on_wrong_bubble_popped()
 		bubble.queue_free()
 		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -2.ogg")
 		add_child(audio)
 		audio.play()
 		return
-	else:
-		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
-		add_child(audio)
-		audio.play()
-		return
-	
+	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
+	add_child(audio)
+	audio.play()
+
 	if state == BubbleDefinitions.BubbleState.WHATSAPP:
 		groupa_popped_bubbles += 1
 	elif BubbleDefinitions.BubbleState.INSTAGRAM:
@@ -68,8 +90,7 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		groupc_popped_bubbles += 1
 	else:
 		_on_wrong_bubble_popped()
-		return
-	
+
 	bubble.queue_free()
 
 
@@ -90,14 +111,20 @@ func _spawn_new_bubble() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if round_started && !get_tree().has_group("bubble"):
+		round_started = false
+		$AnimationPlayer.play_backwards("ven_animation")
+		await $AnimationPlayer.animation_finished
+		$VennController.selected = false
+
+	if round_started:
+		_check_buble_spawn_countdown()
+		if (bubble_spawn_countdown >= 0):
+			bubble_spawn_countdown -= delta
+			print(str(bubble_spawn_countdown))
+
+func _check_buble_spawn_countdown(): 
+	print(bubble_spawn_countdown)
 	if bubble_spawn_countdown <= 0:
 		bubble_spawn_countdown = bubble_change_cooldown
 		_spawn_new_bubble()
-	
-	bubble_change_countdown -= delta
-	if bubble_change_countdown <= 0:
-		bubble_change_countdown = bubble_change_cooldown
-	
-	if (bubble_spawn_countdown >= 0):
-		bubble_spawn_countdown -= delta
-		print(bubble_spawn_countdown)

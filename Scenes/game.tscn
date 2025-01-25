@@ -1,10 +1,70 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhdc0ckmuduvf"]
+[gd_scene load_steps=9 format=3 uid="uid://dhdc0ckmuduvf"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_7gb4w"]
 [ext_resource type="PackedScene" uid="uid://jsskjmbbjspf" path="res://bubble/bubble.tscn" id="2_yeahh"]
 [ext_resource type="PackedScene" uid="uid://bc3gn5uh1lea" path="res://Scenes/ven_controller.tscn" id="3_3oy8c"]
 [ext_resource type="Script" path="res://Scenes/spawning_marker.gd" id="3_algbn"]
 [ext_resource type="Script" path="res://Scenes/floating_target.gd" id="3_drd3v"]
+
+[sub_resource type="Animation" id="Animation_3bi4q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VennController:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VennController:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(641, 348)]
+}
+
+[sub_resource type="Animation" id="Animation_bpqex"]
+resource_name = "ven_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VennController:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VennController:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(641, 348), Vector2(1175, 91)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7onqm"]
+_data = {
+"RESET": SubResource("Animation_3bi4q"),
+"ven_animation": SubResource("Animation_bpqex")
+}
 
 [node name="Game" type="Node2D"]
 position = Vector2(0, 1)
@@ -23,4 +83,10 @@ position = Vector2(640, 360)
 script = ExtResource("3_drd3v")
 
 [node name="VennController" parent="." instance=ExtResource("3_3oy8c")]
-position = Vector2(945, 112)
+position = Vector2(641, 348)
+scale = Vector2(3, 3)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7onqm")
+}

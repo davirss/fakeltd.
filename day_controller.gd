@@ -5,6 +5,10 @@ var starting_day = 0
 var current_day = 0
 var max_days = 70
 
+var group_a_influence = 0
+var group_b_influence = 0
+var group_c_influence = 0
+
 # User Info
 var starting_followers = 100
 var current_followers = starting_followers
