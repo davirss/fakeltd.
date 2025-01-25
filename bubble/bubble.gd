@@ -11,9 +11,9 @@ class_name Bubble extends BubbleDefinitions
 var floating_target: Marker2D
 
 var _distributions: Dictionary = {
-	BubbleDefinitions.BubbleState.WHATSAPP: 	0.05,
-	BubbleDefinitions.BubbleState.FACEBOOK: 	0.05,
-	BubbleDefinitions.BubbleState.INSTAGRAM:	0.90,
+	BubbleDefinitions.BubbleState.WHATSAPP: 	0.33,
+	BubbleDefinitions.BubbleState.FACEBOOK: 	0.33,
+	BubbleDefinitions.BubbleState.INSTAGRAM:	0.33,
 }
 var _time_to_convert_milliseconds: float = 5000
 var _ttc_variable_margin_percent: float = 0.3

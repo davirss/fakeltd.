@@ -74,12 +74,12 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		print("Wrong bubble")
 		_on_wrong_bubble_popped()
 		bubble.queue_free()
-		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -2.ogg")
+		audio.stream = load("res://Resources/Sounds/Pop Sound Effects.ogg")
 		add_child(audio)
 		audio.play()
 		return
 	
-	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
+	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -2.ogg")
 	add_child(audio)
 	audio.play()
 	
@@ -96,6 +96,10 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 
 
 func _spawn_new_bubble() -> void:
+	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
+	add_child(audio)
+	audio.play()
+	
 	# Spawn new bubble
 	var new_bubble = placeholder.instantiate()
 	new_bubble.floating_target = FLOATING_TARGET
