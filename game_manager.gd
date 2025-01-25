@@ -78,10 +78,11 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		add_child(audio)
 		audio.play()
 		return
+	
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
 	add_child(audio)
 	audio.play()
-
+	
 	if state == BubbleDefinitions.BubbleState.WHATSAPP:
 		groupa_popped_bubbles += 1
 	elif BubbleDefinitions.BubbleState.INSTAGRAM:
