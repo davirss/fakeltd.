@@ -87,11 +87,15 @@ func _process(delta_seconds: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse and event.is_pressed():
-		var mouse_click_position: Vector2 = event.position
-		var collision_rect: Rect2 = collision_shape.shape.get_rect()
-		collision_rect.position = self.position - (collision_rect.size / 2)
-		print("Has rect: ", collision_rect.has_point(mouse_click_position))
-		if collision_rect.has_point(mouse_click_position):
-			print("Has point")
+		if _is_currently_hovered:
 			# Emit signal of selected bubble
 			Global.bubble_clicked.emit(bubble_state, self)
+
+
+var _is_currently_hovered: bool = false
+func _on_body_mouse_entered() -> void:
+	_is_currently_hovered = true
+
+
+func _on_body_mouse_exited() -> void:
+	_is_currently_hovered = false
