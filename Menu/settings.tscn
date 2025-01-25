@@ -1,0 +1,75 @@
+[gd_scene load_steps=2 format=3 uid="uid://casaiclupxwle"]
+
+[ext_resource type="Script" path="res://Menu/back.gd" id="1_7kdcq"]
+
+[node name="Settings" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 0.0117647, 0, 1)
+show_behind_parent = true
+clip_children = 2
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 540.0
+offset_bottom = 332.0
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+offset_left = 168.0
+offset_top = 54.0
+offset_right = 368.0
+offset_bottom = 257.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer"]
+layout_mode = 2
+text = "viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+
+viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+v
+vviva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+
+viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
+"
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+modulate = Color(0.243137, 0.2, 1, 1)
+offset_left = 168.0
+offset_top = 56.0
+offset_right = 368.0
+offset_bottom = 256.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 176.0
+offset_top = 72.0
+offset_right = 350.0
+offset_bottom = 147.0
+text = "We need to think which settings we can implement"
+autowrap_mode = 3
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 46.0
+offset_bottom = 39.0
+
+[node name="Back" type="Button" parent="CenterContainer2"]
+layout_mode = 2
+text = "Back"
+script = ExtResource("1_7kdcq")
+
+[node name="Settings" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 470.0
+offset_top = -1.0
+offset_right = 540.0
+offset_bottom = 30.0
+grow_horizontal = 0
+text = "Settings"
+
+[connection signal="pressed" from="CenterContainer2/Back" to="CenterContainer2/Back" method="_on_pressed"]
+[connection signal="pressed" from="Settings" to="CenterContainer2/Back" method="_on_settings_pressed"]

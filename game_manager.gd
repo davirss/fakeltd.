@@ -1,12 +1,8 @@
-extends Node2D
+extends GameManagerDefinitions
 
-@export var total_bubbles  = 1
-@export var current_bubbles = 0
+@export var initial_bubbles_amount  = 20
 
-@export var column_number = 10
-@export var row_number = 20
-
-var current_active_bubbles = 0
+var _ft_variable_margin_percent = 0.1
 
 var groupa_popped_bubbles = 0
 var groupb_popped_bubbles = 0
@@ -21,12 +17,15 @@ var bubble_change_countdown = bubble_change_cooldown
 var selected_group
 var round_started = false
 
+var audio = AudioStreamPlayer.new()
 @export var placeholder: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SPAWNING_MARKER.floating_target = FLOATING_TARGET
+	
 	# Every X amount of time, notify all bubbles to change.
-	# Check if the number of bubbles match the total_bubbles
+	# Check if the number of bubbles match the initial_bubbles_amount
 	# If it doesn't match, it means that one or more bubbles were popped.
 	# If not, schedule spawn.
 	Global.bubble_clicked.connect(_on_bubble_clicked)
@@ -56,50 +55,32 @@ func _on_ven_pressed(left, top, right) -> void:
 	_start_round()
 
 func _start_round() -> void:
-	print("Start")
 	round_started = true
-	## Spawn the total_bubbles
-	_spawn_bubbles()
+	## Spawn the initial_bubbles_amount
+	_spawn_initial_bubbles()
 
-func _spawn_bubbles() -> void:
-	print("spawning")
-	var current_column = 0
-	var current_line = 0
-	for i in total_bubbles:
-		var new_bubble = placeholder.instantiate()
+func _spawn_initial_bubbles() -> void:
+	for i in initial_bubbles_amount:
+		_spawn_new_bubble()
 
-		new_bubble.center = $Field/Marker2D.position
-		new_bubble.position.x = current_column * 20
-		new_bubble.position.y = current_line * 32
-		$Field.add_child(new_bubble)
-
-		current_column += 1
-		if (current_column == column_number):
-			current_line += 1
-			current_column = 0
-		current_bubbles += 1
 
 func _on_wrong_bubble_popped() -> void:
-	current_bubbles += 1
-	
-	var new_bubble = placeholder.instantiate()
-	new_bubble.center = $Field/Marker2D.position
-	new_bubble.position.x = randi_range(column_number / 2, column_number / 2 - 1) * 20
-	new_bubble.position.y = randi_range(row_number / 2, row_number / 2 - 1) * 32
-	$Field.add_child(new_bubble)
-	
-	var new_bubble_2 = placeholder.instantiate()
-	new_bubble_2.center = $Field/Marker2D.position
-	new_bubble_2.position.x = randi_range(column_number / 2, column_number / 2 - 1) * 20
-	new_bubble_2.position.y = randi_range(row_number / 2, row_number / 2 - 1) * 32
-	$Field.add_child(new_bubble_2)
+	_spawn_new_bubble()
+	_spawn_new_bubble()
+
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
 	if (!selected_group.has(state)):
 		print("Wrong bubble")
 		_on_wrong_bubble_popped()
 		bubble.queue_free()
+		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -2.ogg")
+		add_child(audio)
+		audio.play()
 		return
+	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
+	add_child(audio)
+	audio.play()
 
 	if state == BubbleDefinitions.BubbleState.WHATSAPP:
 		groupa_popped_bubbles += 1
@@ -107,9 +88,26 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		groupb_popped_bubbles += 1
 	elif BubbleDefinitions.BubbleState.FACEBOOK:
 		groupc_popped_bubbles += 1
+	else:
+		_on_wrong_bubble_popped()
 
-	current_bubbles -= 1
 	bubble.queue_free()
+
+
+func _spawn_new_bubble() -> void:
+	# Spawn new bubble
+	var new_bubble = placeholder.instantiate()
+	new_bubble.floating_target = FLOATING_TARGET
+	new_bubble.position.x = randi_range(
+		SPAWNING_MARKER.position.x * (1 - _ft_variable_margin_percent),
+		SPAWNING_MARKER.position.x * (1 + _ft_variable_margin_percent),
+	)
+	new_bubble.position.y = randi_range(
+		SPAWNING_MARKER.position.y * (1 - _ft_variable_margin_percent),
+		SPAWNING_MARKER.position.y * (1 + _ft_variable_margin_percent),
+	)
+	FIELD.add_child(new_bubble)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -128,11 +126,5 @@ func _process(delta: float) -> void:
 func _check_buble_spawn_countdown(): 
 	print(bubble_spawn_countdown)
 	if bubble_spawn_countdown <= 0:
-		bubble_spawn_countdown = bubble_spawn_cooldown
-		#current_bubbles += 1
-		# Spawn new bubble
-		var new_bubble = placeholder.instantiate()
-		new_bubble.center = $Field/Marker2D.position
-		new_bubble.position.x = randi_range(column_number / 2, column_number / 2 - 1) * 20
-		new_bubble.position.y = randi_range(row_number / 2, row_number / 2 - 1) * 32
-		$Field.add_child(new_bubble)
+		bubble_spawn_countdown = bubble_change_cooldown
+		_spawn_new_bubble()
