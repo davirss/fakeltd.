@@ -1,10 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://jsskjmbbjspf"]
 
 [ext_resource type="Script" path="res://bubble/bubble.gd" id="1_ufsww"]
+[ext_resource type="Texture2D" uid="uid://xuiv3y1du2ij" path="res://Resources/bubbles sprites/bubble-1-white.png" id="2_hx1px"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cypwk"]
-
-[sub_resource type="ImageTexture" id="ImageTexture_cadl4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pu1x0"]
 
@@ -15,10 +14,12 @@ script = ExtResource("1_ufsww")
 [node name="View" type="Area2D" parent="."]
 
 [node name="MouseClickCollisionShape" type="CollisionShape2D" parent="View"]
+modulate = Color(1, 1, 1, 0.352941)
 shape = SubResource("CircleShape2D_cypwk")
 
 [node name="BubbleSprite" type="Sprite2D" parent="View"]
-texture = SubResource("ImageTexture_cadl4")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_hx1px")
 
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
 visible = false

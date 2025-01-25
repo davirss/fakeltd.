@@ -3,8 +3,9 @@ class_name Bubble extends BubbleDefinitions
 @export var bubble_state: BubbleDefinitions.BubbleState
 @export var bubble_speed = 100
 
-@onready var mouse_collision_shape = MOUSE_COLLISION_SHAPE
-@onready var body_collision_shape = BODY_COLLISION_SHAPE
+@onready var _mouse_collision_shape = MOUSE_COLLISION_SHAPE
+@onready var _body_collision_shape = BODY_COLLISION_SHAPE
+@onready var _bubble_sprite = BUBBLE_SPRITE
 
 
 var floating_target: Marker2D
@@ -20,11 +21,13 @@ var _time_to_convert_milliseconds: float = 5000
 var _ttc_variable_margin_percent: float = 0.3
 
 
+var _fixed_size_difference: float
 var _variable_size_difference: float
 
 
 func _calculate_variable_size_difference() -> void:
-	_variable_size_difference = randf_range(1.025, 1.3)
+	_fixed_size_difference = randf_range(0.025, 0.3)
+	_variable_size_difference = randf_range(1.025, 1.125)
 
 
 func _calculate_distribution_ranges() -> void:
@@ -41,16 +44,36 @@ func _calculate_variable_time_to_convert() -> void:
 	)
 
 
-func _update_debug_color() -> void:
+func _update_sprite() -> void:
 	match bubble_state:
 		BubbleDefinitions.BubbleState.NEUTRAL:
-			mouse_collision_shape.debug_color = Color.ALICE_BLUE
+			if randf() >= 0.5:
+				_bubble_sprite.texture = BUBBLE_SPRITE_WHITE
+				_mouse_collision_shape.debug_color = Color.ALICE_BLUE
+			else:
+				_bubble_sprite.texture = BUBBLE_SPRITE_WHITE_ALT
+				_mouse_collision_shape.debug_color = Color.ALICE_BLUE
 		BubbleDefinitions.BubbleState.WHATSAPP:
-			mouse_collision_shape.debug_color = Color.LAWN_GREEN
+			if randf() >= 0.5:
+				_bubble_sprite.texture = BUBBLE_SPRITE_GREEN
+				_mouse_collision_shape.debug_color = Color.LAWN_GREEN
+			else:
+				_bubble_sprite.texture = BUBBLE_SPRITE_GREEN_ALT
+				_mouse_collision_shape.debug_color = Color.PALE_GREEN
 		BubbleDefinitions.BubbleState.FACEBOOK:
-			mouse_collision_shape.debug_color = Color.NAVY_BLUE
+			if randf() >= 0.5:
+				_bubble_sprite.texture = BUBBLE_SPRITE_BLUE
+				_mouse_collision_shape.debug_color = Color.NAVY_BLUE
+			else:
+				_bubble_sprite.texture = BUBBLE_SPRITE_BLUE_ALT
+				_mouse_collision_shape.debug_color = Color.ROYAL_BLUE
 		BubbleDefinitions.BubbleState.INSTAGRAM:
-			mouse_collision_shape.debug_color = Color.DEEP_PINK
+			if randf() >= 0.5:
+				_bubble_sprite.texture = BUBBLE_SPRITE_PINK
+				_mouse_collision_shape.debug_color = Color.DEEP_PINK
+			else:
+				_bubble_sprite.texture = BUBBLE_SPRITE_PINK_ALT
+				_mouse_collision_shape.debug_color = Color.HOT_PINK
 
 
 func _update_bubble_state_as_per_distribution() -> void:
@@ -66,12 +89,12 @@ func _update_bubble_state_as_per_distribution() -> void:
 			bubble_state = next_bubble_state
 			break
 	
-	_update_debug_color()
+	_update_sprite()
 
 
 func _prepare_to_grow() -> void:
-	mouse_collision_shape.scale = Vector2(0.0, 0.0)
-	body_collision_shape.scale = Vector2(0.0, 0.0)
+	_mouse_collision_shape.scale = Vector2(0.0, 0.0)
+	_body_collision_shape.scale = Vector2(0.0, 0.0)
 
 
 func _ready() -> void:
@@ -80,7 +103,7 @@ func _ready() -> void:
 	_calculate_variable_size_difference()
 	_calculate_distribution_ranges()
 	_calculate_variable_time_to_convert()
-	_update_debug_color()
+	_update_sprite()
 	_prepare_to_grow()
 
 
@@ -104,13 +127,17 @@ func _process(delta_seconds: float) -> void:
 		BubbleDefinitions.BubbleState.NEUTRAL:
 			time_to_act = _time_to_convert_milliseconds
 			
-			var real_growth: float = _elapsed_time_milliseconds / time_to_act
-			var visual_growth: float = _ease_out_elastic(real_growth)
-			mouse_collision_shape.scale = Vector2(
-				visual_growth * _variable_size_difference,
-				visual_growth * _variable_size_difference
-			)
-			body_collision_shape.scale = Vector2(real_growth, real_growth)
+			var physics_growth: float = min(1.0, _elapsed_time_milliseconds / (time_to_act * 0.4))
+			physics_growth += _fixed_size_difference
+			
+			var clickable_growth := _ease_out_elastic(physics_growth) * _variable_size_difference
+			clickable_growth += _fixed_size_difference
+			
+			var visual_growth: float = clickable_growth * 0.2
+			
+			_mouse_collision_shape.scale = Vector2(clickable_growth, clickable_growth)
+			_bubble_sprite.scale = Vector2(visual_growth, visual_growth)
+			_body_collision_shape.scale = Vector2(physics_growth, physics_growth)
 			
 		BubbleDefinitions.BubbleState.WHATSAPP:
 			time_to_act = _time_to_convert_milliseconds / 3
