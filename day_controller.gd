@@ -3,7 +3,7 @@ extends Node
 # Days manager
 var starting_day = 0
 var current_day = 0
-var max_days = 7
+var max_days = 70
 
 # User Info
 var starting_followers = 100
@@ -17,6 +17,10 @@ var spread_factor = 0.1
 var messages = 100 * 0.05
 var likes = 100 * 0.25
 var shares = 100 * 0.25
+
+func _ready() -> void:
+	update_user_statistics()
+	update_post_statistics()
 
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta: float) -> void:
