@@ -1,4 +1,4 @@
-class_name BubbleDefinitions extends Node
+class_name BubbleDefinitions extends CharacterBody2D
 
 enum BubbleState {
 	NEUTRAL,
@@ -7,4 +7,6 @@ enum BubbleState {
 	INSTAGRAM,
 }
 
-@onready var COLLISION_SHAPE: CollisionShape2D = $Body/BubbleCollisionShape
+@onready var MOUSE_COLLISION_SHAPE: CollisionShape2D = $View/MouseClickCollisionShape
+
+@onready var BODY_COLLISION_SHAPE: CollisionShape2D = $BodyCollisionShape
