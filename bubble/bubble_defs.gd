@@ -1,4 +1,4 @@
-class_name BubbleDefinitions extends Node
+class_name BubbleDefinitions extends CharacterBody2D
 
 enum BubbleState {
 	NEUTRAL,

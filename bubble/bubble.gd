@@ -1,14 +1,17 @@
 class_name Bubble extends BubbleDefinitions
 
 @export var bubble_state: BubbleDefinitions.BubbleState
+@export var bubble_speed = 100
 
 @onready var collision_shape = COLLISION_SHAPE
 
+var center = Vector2(0, 0)
+
 
 var _distributions: Dictionary = {
-	BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
-	BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
-	BubbleDefinitions.BubbleState.INSTAGRAM:	0.50,
+	BubbleDefinitions.BubbleState.WHATSAPP: 	0.05,
+	BubbleDefinitions.BubbleState.FACEBOOK: 	0.05,
+	BubbleDefinitions.BubbleState.INSTAGRAM:	0.90,
 }
 
 var _time_to_convert_milliseconds: float = 5000
@@ -83,6 +86,13 @@ func _process(delta_seconds: float) -> void:
 	if (_elapsed_time_milliseconds >= time_to_act):
 		_elapsed_time_milliseconds = 0.0
 		_update_bubble_state_as_per_distribution()
+
+	
+	var direction = (center - position).normalized()
+	# Calculate velocity based on direction and speed
+	velocity = direction * bubble_speed
+	# Move and check for collisions
+	move_and_slide()
 
 
 func _input(event: InputEvent) -> void:

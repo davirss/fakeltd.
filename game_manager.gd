@@ -1,7 +1,7 @@
-extends Node
+extends Node2D
 
-@export var total_bubles  = 100
-@export var current_bubbles = 100
+@export var total_bubles  = 50
+@export var current_bubbles = 0
 
 @export var column_number = 10
 @export var row_number = 20
@@ -15,10 +15,10 @@ var groupc_popped_bubbles = 0
 var bubble_spawn_cooldown = 1
 var bubble_spawn_countdown = 0
 
-var bubble_change_cooldown = 5
+var bubble_change_cooldown = 2
 var bubble_change_countdown = bubble_change_cooldown
 
-var selected_group = BubbleDefinitions.BubbleState.WHATSAPP
+var selected_group = BubbleDefinitions.BubbleState.INSTAGRAM
 
 @export var placeholder: PackedScene
 
@@ -40,27 +40,33 @@ func _spawn_bubbles() -> void:
 	var current_line = 0
 	for i in total_bubles:
 		var new_bubble = placeholder.instantiate()
-		
+
+		new_bubble.center = $Field/Marker2D.global_position
 		new_bubble.position.x = current_column * 20
 		new_bubble.position.y = current_line * 32
 		$Field.add_child(new_bubble)
-		
+
 		current_column += 1
 		if (current_column == column_number):
 			current_line += 1
 			current_column = 0
+		current_bubbles += 1
 
 func _on_wrong_bubble_popped() -> void:
-	total_bubles -= 1
-	current_bubbles -= 1
-	pass
+	#total_bubles += 1
+	current_bubbles += 1
+	var new_bubble = placeholder.instantiate()
+	new_bubble.center = $Field/Marker2D.global_position
+	$Field.add_child(new_bubble)
+	var new_bubble_2 = placeholder.instantiate()
+	new_bubble_2.center = $Field/Marker2D.global_position
+	$Field.add_child(new_bubble_2)
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
 	if (state != selected_group):
 		_on_wrong_bubble_popped()
 		bubble.queue_free()
 		return
-
 	if state == BubbleDefinitions.BubbleState.WHATSAPP:
 		groupa_popped_bubbles += 1
 	elif BubbleDefinitions.BubbleState.INSTAGRAM:
@@ -69,20 +75,19 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		groupc_popped_bubbles += 1
 	else:
 		_on_wrong_bubble_popped()
+		return
 
-		
-	bubble_spawn_countdown = bubble_spawn_cooldown
 	current_bubbles -= 1
 	bubble.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-
-	if current_bubbles < total_bubles && bubble_spawn_countdown <= 0:
-		current_bubbles += 1
+	if bubble_spawn_countdown <= 0:
+		bubble_spawn_countdown = bubble_change_cooldown
+		#current_bubbles += 1
 		# Spawn new bubble
 		var new_bubble = placeholder.instantiate()
-		new_bubble.position = $Field/Marker2D.position
+		new_bubble.position = $Field/Marker2D.global_position
 		$Field.add_child(new_bubble)
 
 	bubble_change_countdown -= delta
