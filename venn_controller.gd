@@ -2,7 +2,7 @@ extends Node2D
 
 var right = false
 var left = false
-var bot = false
+var top = false
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept") || Input.is_action_just_pressed("Select"):
@@ -11,87 +11,88 @@ func _process(delta: float) -> void:
 func _on_left_mouse_entered() -> void:
 	left = true
 	right = false
-	bot = false
+	top = false
 	$Left.modulate = Color.BLACK
 
 func _on_left_mouse_exited() -> void:
 	left = true
 	right = false
-	bot = false
+	top = false
 	$Left.modulate = Color.WHITE
 
 func _on_right_mouse_entered() -> void:
 	left = false
 	right = true
-	bot = false
+	top = false
 	$Right.modulate = Color.BLACK
 
 func _on_right_mouse_exited() -> void:
 	left = false
 	right = false
-	bot = false
+	top = false
 	$Right.modulate = Color.WHITE
 
 func _on_bottom_mouse_entered() -> void:
-	left = true
+	left = false
 	right = false
-	bot = false
-	$Bottom.modulate = Color.BLACK
+	top = true
+	$Top.modulate = Color.BLACK
 
 func _on_bottom_mouse_exited() -> void:
-	left = true
+	left = false
 	right = false
-	bot = false
-	$Bottom.modulate = Color.WHITE
+	top = false
+	$Top.modulate = Color.WHITE
 
 func _on_left_right_intersect_mouse_entered() -> void:
 	left = true
 	right = true
-	bot = false
+	top = false
 	$LeftRightIntersect.modulate = Color.BLACK
 
 func _on_left_right_intersect_mouse_exited() -> void:
 	left = false
 	right = false
-	bot = false
+	top = false
 	$LeftRightIntersect.modulate = Color.WHITE
 
 func _on_left_bot_intersect_mouse_entered() -> void:
 	left = true
 	right = false
-	bot = true
-	$LeftBotIntersect.modulate = Color.BLACK
+	top = true
+	$LeftTopIntersect.modulate = Color.BLACK
 
 func _on_left_bot_intersect_mouse_exited() -> void:
 	left = false
 	right = false
-	bot = false
-	$LeftBotIntersect.modulate = Color.WHITE
+	top = false
+	$LeftTopIntersect.modulate = Color.WHITE
 
 func _on_right_bot_intersect_mouse_entered() -> void:
 	left = false
 	right = true
-	bot = true
-	$RightBotIntersect.modulate = Color.BLACK
+	top = true
+	$RightTopIntersect.modulate = Color.BLACK
 
 func _on_right_bot_intersect_mouse_exited() -> void:
 	left = false
 	right = false
-	bot = false
-	$RightBotIntersect.modulate = Color.WHITE
+	top = false
+	$RightTopIntersect.modulate = Color.WHITE
 
 func _on_center_mouse_entered() -> void:
 	left = true
 	right = true
-	bot = true
+	top = true
 	$Center.modulate = Color.BLACK
 
 func _on_center_mouse_exited() -> void:
 	left = false
 	right = false
-	bot = false
+	top = false
 	$Center.modulate = Color.WHITE
 
 func _send_signal():
-	print("Sending signal", left, bot, right)
-	Global.on_venn_pressed.emit(left, bot, right)
+	if (left || top || right):
+		print("Sending signal", left, top, right)
+		Global.on_venn_pressed.emit(left, top, right)
