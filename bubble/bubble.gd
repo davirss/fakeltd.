@@ -8,16 +8,13 @@ class_name Bubble extends BubbleDefinitions
 
 var center = Vector2(0, 0)
 
-
 var _distributions: Dictionary = {
 	BubbleDefinitions.BubbleState.WHATSAPP: 	0.05,
 	BubbleDefinitions.BubbleState.FACEBOOK: 	0.05,
 	BubbleDefinitions.BubbleState.INSTAGRAM:	0.90,
 }
-
 var _time_to_convert_milliseconds: float = 5000
 var _ttc_variable_margin_percent: float = 0.3
-
 
 func _calculate_distribution_ranges() -> void:
 	_distributions[BubbleDefinitions.BubbleState.FACEBOOK] += \

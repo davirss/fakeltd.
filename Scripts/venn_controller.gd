@@ -3,10 +3,11 @@ extends Node2D
 var right = false
 var left = false
 var top = false
+var selected = false
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept") || Input.is_action_just_pressed("Select"):
-		_send_signal()
+	if !selected && (Input.is_action_just_pressed("ui_accept") || Input.is_action_just_pressed("Select")):
+		_send_signal(left, top, right)
 
 func _on_left_mouse_entered() -> void:
 	left = true
@@ -92,7 +93,10 @@ func _on_center_mouse_exited() -> void:
 	top = false
 	$Center.modulate = Color.WHITE
 
-func _send_signal():
+func _send_signal(left, top, right):
 	if (left || top || right):
 		print("Sending signal", left, top, right)
 		Global.on_venn_pressed.emit(left, top, right)
+		left = false
+		right = false
+		top = false
