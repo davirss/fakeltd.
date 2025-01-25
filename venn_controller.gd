@@ -4,34 +4,44 @@ var right = false
 var left = false
 var bot = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _on_left_mouse_entered() -> void:
+	$Left.modulate = Color.BLACK
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_left_mouse_exited() -> void:
+	$Left.modulate = Color.WHITE
 
-func _on_right_venn_mouse_entered() -> void:
-	right = true
-	print("left, right, bot:", left, right, bot)
+func _on_right_mouse_entered() -> void:
+	$Right.modulate = Color.BLACK
 
-func _on_right_venn_mouse_exited() -> void:
-	right = false
-	print("left, right, bot:", left, right, bot)
+func _on_right_mouse_exited() -> void:
+	$Right.modulate = Color.WHITE
 
-func _on_left_venn_mouse_entered() -> void:
-	left = true
-	print("left, right, bot:", left, right, bot)
+func _on_bottom_mouse_entered() -> void:
+	$Bottom.modulate = Color.BLACK
 
-func _on_left_venn_mouse_exited() -> void:
-	left = false
-	print("left, right, bot:", left, right, bot)
+func _on_bottom_mouse_exited() -> void:
+	$Bottom.modulate = Color.WHITE
 
-func _on_bottom_venn_mouse_entered() -> void:
-	bot = true
-	print("left, right, bot:", left, right, bot)
+func _on_left_right_intersect_mouse_entered() -> void:
+	$LeftRightIntersect.modulate = Color.BLACK
 
-func _on_bottom_venn_mouse_exited() -> void:
-	bot = false
-	print("left, right, bot:", left, right, bot)
+func _on_left_right_intersect_mouse_exited() -> void:
+	$LeftRightIntersect.modulate = Color.WHITE
+
+func _on_left_bot_intersect_mouse_entered() -> void:
+	$LeftBotIntersect.modulate = Color.BLACK
+
+func _on_left_bot_intersect_mouse_exited() -> void:
+	$LeftBotIntersect.modulate = Color.WHITE
+
+func _on_right_bot_intersect_mouse_entered() -> void:
+	$RightBotIntersect.modulate = Color.BLACK
+
+func _on_right_bot_intersect_mouse_exited() -> void:
+	$RightBotIntersect.modulate = Color.WHITE
+
+func _on_center_mouse_entered() -> void:
+	$Center.modulate = Color.BLACK
+
+func _on_center_mouse_exited() -> void:
+	$Center.modulate = Color.WHITE
