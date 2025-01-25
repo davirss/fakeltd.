@@ -1,6 +1,6 @@
 extends GameManagerDefinitions
 
-@export var initial_bubbles_amount  = 50
+@export var initial_bubbles_amount  = 20
 
 var _ft_variable_margin_percent = 0.1
 
