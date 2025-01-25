@@ -16,6 +16,7 @@ var bubble_change_countdown = bubble_change_cooldown
 
 var selected_group = BubbleDefinitions.BubbleState.INSTAGRAM
 
+var audio = AudioStreamPlayer.new()
 @export var placeholder: PackedScene
 
 # Called when the node enters the scene tree for the first time.
@@ -49,6 +50,14 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 	if (state != selected_group):
 		_on_wrong_bubble_popped()
 		bubble.queue_free()
+		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -2.ogg")
+		add_child(audio)
+		audio.play()
+		return
+	else:
+		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
+		add_child(audio)
+		audio.play()
 		return
 	
 	if state == BubbleDefinitions.BubbleState.WHATSAPP:
