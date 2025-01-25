@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://cllhy4mre4ogl"]
+
+[ext_resource type="Script" path="res://Menu/main_menu.gd" id="1_r440u"]
+
+[node name="Main_menu" type="Node2D"]
+position = Vector2(0, 2)
+script = ExtResource("1_r440u")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 0, 0, 1)
+show_behind_parent = true
+clip_children = 2
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 540.0
+offset_bottom = 332.0
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="Quit" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Credits" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Credits"
+
+[node name="Instructions" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Instructions"
+
+[node name="CenterContainer2" type="CenterContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Settings" type="Button" parent="ColorRect/CenterContainer2"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 173.0
+offset_top = 26.0
+offset_right = 351.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 50
+text = "Fake ltd
+"
+
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Instructions" to="." method="_on_instructions_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer2/Settings" to="." method="_on_settings_pressed"]
