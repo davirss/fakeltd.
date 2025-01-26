@@ -9,14 +9,14 @@ class_name Bubble extends BubbleDefinitions
 
 
 var floating_target: Marker2D
+var distributions: Dictionary
+var initial_bubbles_amount: int
 
-var _distributions: Dictionary = {
-	BubbleDefinitions.BubbleState.WHATSAPP: 	0.05,
-	BubbleDefinitions.BubbleState.FACEBOOK: 	0.05,
-	BubbleDefinitions.BubbleState.INSTAGRAM:	0.90,
-}
-var _time_to_convert_milliseconds: float = 5000
-var _ttc_variable_margin_percent: float = 0.3
+
+var _min_time_to_swap_milliseconds: float = 333.33333333333337
+var _max_time_to_swap_milliseconds: float = 2000
+var _time_to_convert_milliseconds: float = 2000
+var _ttc_variable_margin_percent: float = 0.1
 
 var _fixed_size_difference: float
 var _variable_size_difference: float
@@ -27,10 +27,10 @@ func _calculate_variable_size_difference() -> void:
 
 
 func _calculate_distribution_ranges() -> void:
-	_distributions[BubbleDefinitions.BubbleState.FACEBOOK] += \
-		_distributions[BubbleDefinitions.BubbleState.WHATSAPP]
-	_distributions[BubbleDefinitions.BubbleState.INSTAGRAM] += \
-		_distributions[BubbleDefinitions.BubbleState.FACEBOOK]
+	distributions[BubbleDefinitions.BubbleState.FACEBOOK] += \
+		distributions[BubbleDefinitions.BubbleState.WHATSAPP]
+	distributions[BubbleDefinitions.BubbleState.INSTAGRAM] += \
+		distributions[BubbleDefinitions.BubbleState.FACEBOOK]
 
 
 func _calculate_variable_time_to_convert() -> void:
@@ -40,7 +40,10 @@ func _calculate_variable_time_to_convert() -> void:
 	)
 
 
-func _update_sprite() -> void:
+func _update_sprite(previous_bubble_state: BubbleDefinitions.BubbleState) -> void:
+	if (previous_bubble_state == bubble_state):
+		return
+	
 	match bubble_state:
 		BubbleDefinitions.BubbleState.NEUTRAL:
 			if randf() >= 0.5:
@@ -73,19 +76,28 @@ func _update_sprite() -> void:
 
 
 func _update_bubble_state_as_per_distribution() -> void:
-	var next_bubble_state_picker: float = randf()
+	var previous_bubble_state: BubbleDefinitions.BubbleState = bubble_state
 	var bubble_states: Array[BubbleDefinitions.BubbleState] = [
 		BubbleDefinitions.BubbleState.WHATSAPP,
 		BubbleDefinitions.BubbleState.FACEBOOK,
 		BubbleDefinitions.BubbleState.INSTAGRAM,
 	]
 	
-	for next_bubble_state in bubble_states:
-		if (next_bubble_state_picker <= _distributions[next_bubble_state]):
-			bubble_state = next_bubble_state
+	var next_bubble_state_picker: float = randf()
+	var next_bubble_state: BubbleDefinitions.BubbleState
+	
+	for bubble_state in bubble_states:
+		if (next_bubble_state_picker < distributions[bubble_state]):
+			next_bubble_state = bubble_state
 			break
 	
-	_update_sprite()
+	if next_bubble_state == previous_bubble_state:
+		_update_bubble_state_as_per_distribution()
+		return
+	else:
+		bubble_state = next_bubble_state
+	
+	_update_sprite(previous_bubble_state)
 
 
 func _prepare_to_grow() -> void:
@@ -99,8 +111,35 @@ func _ready() -> void:
 	_calculate_variable_size_difference()
 	_calculate_distribution_ranges()
 	_calculate_variable_time_to_convert()
-	_update_sprite()
+	_update_sprite(bubble_state)
 	_prepare_to_grow()
+
+
+func _animate_size_update_for_neutral_state(time_to_update_milliseconds: float) -> void:
+	var physics_growth: float = min(
+		1.0, _elapsed_time_milliseconds / (time_to_update_milliseconds * 0.4)
+	)
+	physics_growth += _fixed_size_difference
+	
+	var clickable_growth := _ease_out_elastic(physics_growth) * _variable_size_difference
+	clickable_growth += _fixed_size_difference
+	
+	var visual_growth: float = clickable_growth * 0.2
+	
+	_mouse_collision_shape.scale = Vector2(clickable_growth, clickable_growth)
+	_bubble_sprite.scale = Vector2(visual_growth, visual_growth)
+	_body_collision_shape.scale = Vector2(physics_growth, physics_growth)
+
+
+func _calculate_time_to_update_for_non_neutral_state() -> float:
+	var min_target := _min_time_to_swap_milliseconds
+	var max_target := _max_time_to_swap_milliseconds
+	
+	var currrent_bubbles_amount := get_tree().get_nodes_in_group("bubble").size()
+	var percentage := currrent_bubbles_amount * 1.0 / initial_bubbles_amount
+	var calculated := min_target + (max_target - min_target) * percentage
+	
+	return calculated
 
 
 func _ease_out_elastic(number: float) -> float:
@@ -114,35 +153,27 @@ func _ease_out_elastic(number: float) -> float:
 		) + 1
 
 
+func _ease_in_circular(number: float) -> float:
+	return 1 - sqrt(1 - pow(number, 2))
+
+
 var _elapsed_time_milliseconds: float = 0.0
 func _process(delta_seconds: float) -> void:
 	_elapsed_time_milliseconds += (delta_seconds * 1000)
 	
-	var time_to_act: float
+	var time_to_update_milliseconds: float
 	match (bubble_state):
 		BubbleDefinitions.BubbleState.NEUTRAL:
-			time_to_act = _time_to_convert_milliseconds
-			
-			var physics_growth: float = min(1.0, _elapsed_time_milliseconds / (time_to_act * 0.4))
-			physics_growth += _fixed_size_difference
-			
-			var clickable_growth := _ease_out_elastic(physics_growth) * _variable_size_difference
-			clickable_growth += _fixed_size_difference
-			
-			var visual_growth: float = clickable_growth * 0.2
-			
-			_mouse_collision_shape.scale = Vector2(clickable_growth, clickable_growth)
-			_bubble_sprite.scale = Vector2(visual_growth, visual_growth)
-			_body_collision_shape.scale = Vector2(physics_growth, physics_growth)
-			
+			time_to_update_milliseconds = _time_to_convert_milliseconds
+			_animate_size_update_for_neutral_state(time_to_update_milliseconds)
 		BubbleDefinitions.BubbleState.WHATSAPP:
-			time_to_act = _time_to_convert_milliseconds / 3
+			time_to_update_milliseconds = _calculate_time_to_update_for_non_neutral_state()
 		BubbleDefinitions.BubbleState.FACEBOOK:
-			time_to_act = _time_to_convert_milliseconds / 3
+			time_to_update_milliseconds = _calculate_time_to_update_for_non_neutral_state()
 		BubbleDefinitions.BubbleState.INSTAGRAM:
-			time_to_act = _time_to_convert_milliseconds / 3
+			time_to_update_milliseconds = _calculate_time_to_update_for_non_neutral_state()
 	
-	if (_elapsed_time_milliseconds >= time_to_act):
+	if (_elapsed_time_milliseconds >= time_to_update_milliseconds):
 		_elapsed_time_milliseconds = 0.0
 		_update_bubble_state_as_per_distribution()
 	

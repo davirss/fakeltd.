@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bwws8ulogsveg" path="res://Scenes/Influences.tscn" id="6_j03eu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_23fjt"]
-radius = 400.0
+radius = 450.0
 
 [sub_resource type="Animation" id="Animation_3bi4q"]
 length = 0.001
