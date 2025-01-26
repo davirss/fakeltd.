@@ -4,10 +4,6 @@ extends GameManagerDefinitions
 
 var _ft_variable_margin_percent = 0.1
 
-var groupa_popped_bubbles = 0
-var groupb_popped_bubbles = 0
-var groupc_popped_bubbles = 0
-
 var bubble_spawn_cooldown = 1
 var bubble_spawn_countdown: float = 0
 
@@ -16,6 +12,10 @@ var bubble_change_countdown = bubble_change_cooldown
 
 var selected_group
 var round_started = false
+
+var influence_a = 100
+var influence_b = 100
+var influence_c = 100
 
 @onready var audio = $AudioStreamPlayer2D
 @export var placeholder: PackedScene
@@ -30,6 +30,10 @@ func _ready() -> void:
 	# If not, schedule spawn.
 	Global.bubble_clicked.connect(_on_bubble_clicked)
 	Global.on_venn_pressed.connect(_on_ven_pressed)
+	Global.influence_over.connect(_game_over)
+	$Influences.bar_1 = influence_a
+	$Influences.bar_2 = influence_b
+	$Influences.bar_3 = influence_c
 
 func _on_ven_pressed(left, top, right) -> void:
 	if left && !top && !right:
@@ -64,6 +68,7 @@ func _maximize_diagram():
 
 func _start_round() -> void:
 	round_started = true
+	$Influences.elapsed = true
 	## Spawn the initial_bubbles_amount
 	_spawn_initial_bubbles()
 
@@ -71,31 +76,32 @@ func _spawn_initial_bubbles() -> void:
 	for i in initial_bubbles_amount:
 		_spawn_new_bubble()
 
-func _on_wrong_bubble_popped() -> void:
-	_spawn_new_bubble()
-	_spawn_new_bubble()
+func _on_wrong_bubble_popped(state:  BubbleDefinitions.BubbleState) -> void:
+	match state:
+		BubbleDefinitions.BubbleState.WHATSAPP:
+			$Influences.decrease_first(0.5)
+		BubbleDefinitions.BubbleState.FACEBOOK:
+			$Influences.decrease_second(0.5)
+		BubbleDefinitions.BubbleState.INSTAGRAM:
+			$Influences.decrease_third(0.5)
+		BubbleDefinitions.BubbleState.NEUTRAL:
+			$Influences.decrease_first(0.5)
+			$Influences.decrease_second(0.5)
+			$Influences.decrease_third(0.5)
+
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
 	if (!selected_group.has(state)):
 		print("Wrong bubble")
-		_on_wrong_bubble_popped()
+		_on_wrong_bubble_popped(state)
 		bubble.queue_free()
 		audio.stream = load("res://Resources/Sounds/Pop Sound Effects -2.ogg")
 		add_child(audio)
 		audio.play()
 		return
-		
+
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
 	audio.play()
-
-	if state == BubbleDefinitions.BubbleState.WHATSAPP:
-		groupa_popped_bubbles += 1
-	elif BubbleDefinitions.BubbleState.INSTAGRAM:
-		groupb_popped_bubbles += 1
-	elif BubbleDefinitions.BubbleState.FACEBOOK:
-		groupc_popped_bubbles += 1
-	else:
-		_on_wrong_bubble_popped()
 	bubble.queue_free()
 
 func _spawn_new_bubble() -> void:
@@ -116,7 +122,7 @@ func _spawn_new_bubble() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if round_started && !get_tree().has_group("bubble"):
-		round_started = false
+		_game_over()
 
 	if round_started:
 		_check_buble_spawn_countdown()
@@ -130,6 +136,8 @@ func _check_buble_spawn_countdown():
 
 func _game_over():
 	round_started = false
+	$Influences.elapsed = false
+	
 	var nodes = get_tree().get_nodes_in_group("bubble");
 	for bubble in nodes:
 		# TODO: Animate all bubbles bursting
@@ -137,7 +145,5 @@ func _game_over():
 	_maximize_diagram()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	print("exited")
-	print("Body is bubble:", body, body.is_queued_for_deletion())
 	if body.is_in_group("bubble") && !body.is_queued_for_deletion():
 		_game_over()

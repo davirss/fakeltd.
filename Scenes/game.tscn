@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhdc0ckmuduvf"]
+[gd_scene load_steps=11 format=3 uid="uid://dhdc0ckmuduvf"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_7gb4w"]
 [ext_resource type="PackedScene" uid="uid://jsskjmbbjspf" path="res://bubble/bubble.tscn" id="2_yeahh"]
 [ext_resource type="PackedScene" uid="uid://bc3gn5uh1lea" path="res://Scenes/ven_controller.tscn" id="3_3oy8c"]
 [ext_resource type="Script" path="res://Scenes/spawning_marker.gd" id="3_algbn"]
 [ext_resource type="Script" path="res://Scenes/floating_target.gd" id="3_drd3v"]
+[ext_resource type="PackedScene" uid="uid://bwws8ulogsveg" path="res://Scenes/Influences.tscn" id="6_j03eu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_23fjt"]
 radius = 400.0
@@ -85,9 +86,9 @@ script = ExtResource("3_algbn")
 position = Vector2(640, 360)
 script = ExtResource("3_drd3v")
 
-[node name="Area2D" type="Area2D" parent="Field"]
+[node name="GameOverArea" type="Area2D" parent="Field"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Field/Area2D"]
+[node name="GameOverShape" type="CollisionShape2D" parent="Field/GameOverArea"]
 position = Vector2(645, 360)
 shape = SubResource("CircleShape2D_23fjt")
 
@@ -102,4 +103,10 @@ libraries = {
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
-[connection signal="body_exited" from="Field/Area2D" to="." method="_on_area_2d_body_exited"]
+[node name="Influences" parent="." instance=ExtResource("6_j03eu")]
+offset_left = 34.0
+offset_top = 592.0
+offset_right = 158.0
+offset_bottom = 681.0
+
+[connection signal="body_exited" from="Field/GameOverArea" to="." method="_on_area_2d_body_exited"]
