@@ -153,16 +153,16 @@ func _on_wrong_bubble_popped(state:  BubbleDefinitions.BubbleState) -> void:
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
 	if (!_selected_group.has(state)):
-		print("Wrong bubble")
 		_on_wrong_bubble_popped(state)
-		bubble.queue_free()
+		bubble.destroy_self()
+		
 		audio.stream = load("res://Resources/Sounds/Pop Sound Effects.ogg")
 		audio.play()
 		return
 
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
 	audio.play()
-	bubble.queue_free()
+	bubble.destroy_self()
 
 
 func _spawn_new_bubble(is_init_or_from_mistake: bool) -> void:
