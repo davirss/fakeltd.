@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bc3gn5uh1lea" path="res://Scenes/ven_controller.tscn" id="3_3oy8c"]
 [ext_resource type="Script" path="res://Scenes/spawning_marker.gd" id="3_algbn"]
 [ext_resource type="Script" path="res://Scenes/floating_target.gd" id="3_drd3v"]
-[ext_resource type="PackedScene" uid="uid://bwws8ulogsveg" path="res://Scenes/Influences.tscn" id="6_j03eu"]
+[ext_resource type="PackedScene" path="res://Scenes/Influences.tscn" id="6_j03eu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_23fjt"]
 radius = 450.0

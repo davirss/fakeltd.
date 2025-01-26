@@ -153,16 +153,16 @@ func _on_wrong_bubble_popped(state:  BubbleDefinitions.BubbleState) -> void:
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
 	if (!_selected_group.has(state)):
-		print("Wrong bubble")
 		_on_wrong_bubble_popped(state)
-		bubble.queue_free()
+		bubble.destroy_self()
+		
 		audio.stream = load("res://Resources/Sounds/Pop Sound Effects.ogg")
 		audio.play()
 		return
 
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
 	audio.play()
-	bubble.queue_free()
+	bubble.destroy_self()
 
 
 func _spawn_new_bubble(is_init_or_from_mistake: bool) -> void:
@@ -211,9 +211,11 @@ func _game_over():
 		bubble.queue_free()
 	_maximize_diagram()
 
+
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.is_in_group("bubble") && !body.is_queued_for_deletion():
+	if body.is_in_group("bubble") && !body._is_currently_popping():
 		_game_over()
+
 
 func _check_buble_spawn_countdown(): 
 	if bubble_spawn_countdown <= 0:
