@@ -49,6 +49,10 @@ custom_minimum_size = Vector2(800, 500)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+text = "The Social Bubbles was created for the Global Game Jam ® by:
+oldrich
+Sete
+davirss"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Back" to="MarginContainer/HBoxContainer/Back" method="_on_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Settings" to="MarginContainer/HBoxContainer/Back" method="_on_settings_pressed"]

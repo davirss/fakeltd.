@@ -49,6 +49,9 @@ custom_minimum_size = Vector2(800, 500)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+text = "Pop your way into spreading your narrative to as many social bubbles as you can! QUICK, BEFORE THE FACT CHECKER COMES!
+Choose a color.
+Click on bubbles of the chosen color. If you click on bubbles of the wrong color, new bubbles will appear."
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Back" to="MarginContainer/HBoxContainer/Back" method="_on_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Settings" to="MarginContainer/HBoxContainer/Back" method="_on_settings_pressed"]
