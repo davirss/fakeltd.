@@ -121,12 +121,12 @@ func _start_round() -> void:
 
 func _spawn_initial_bubbles() -> void:
 	for i in initial_bubbles_amount:
-		_spawn_new_bubble()
+		_spawn_new_bubble(true)
 
 
 func _on_wrong_bubble_popped() -> void:
-	_spawn_new_bubble()
-	_spawn_new_bubble()
+	_spawn_new_bubble(true)
+	_spawn_new_bubble(true)
 
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
@@ -155,7 +155,12 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 	bubble.queue_free()
 
 
-func _spawn_new_bubble() -> void:
+func _spawn_new_bubble(is_init_or_from_mistake: bool) -> void:
+	if not is_init_or_from_mistake:
+		var currrent_bubbles_amount := get_tree().get_nodes_in_group("bubble").size()
+		if currrent_bubbles_amount == 1:
+			return
+	
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
 	add_child(audio)
 	audio.play()
@@ -193,4 +198,4 @@ func _process(delta: float) -> void:
 func _check_buble_spawn_countdown(): 
 	if bubble_spawn_countdown <= 0:
 		bubble_spawn_countdown = bubble_spawn_cooldown
-		_spawn_new_bubble()
+		_spawn_new_bubble(false)
