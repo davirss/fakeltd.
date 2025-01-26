@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://day_controller.gd" id="1_m7ce6"]
 [ext_resource type="PackedScene" uid="uid://dq8cvjr2w7ja3" path="res://user_info.tscn" id="2_oxq5u"]
 [ext_resource type="PackedScene" uid="uid://cnc3jy1m0klal" path="res://post.tscn" id="3_0oxcl"]
-[ext_resource type="PackedScene" uid="uid://bwws8ulogsveg" path="res://Scenes/Influences.tscn" id="4_jgnhn"]
+[ext_resource type="PackedScene" uid="uid://cgv11vj5ht5aw" path="res://Scenes/Influences.tscn" id="4_jgnhn"]
 
 [node name="DayController" type="VBoxContainer"]
 script = ExtResource("1_m7ce6")

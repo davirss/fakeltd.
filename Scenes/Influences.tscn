@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwws8ulogsveg"]
+[gd_scene load_steps=5 format=3 uid="uid://cgv11vj5ht5aw"]
 
 [ext_resource type="Texture2D" uid="uid://dskd0rvt6r8dy" path="res://Resources/bubbles sprites/bubble-1-blue.png" id="1_1o014"]
 [ext_resource type="Script" path="res://influence_bars/influence_bars.gd" id="1_714sy"]
