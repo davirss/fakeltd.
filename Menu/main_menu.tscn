@@ -2,42 +2,32 @@
 
 [ext_resource type="Script" path="res://Menu/main_menu.gd" id="1_r440u"]
 
-[node name="Main_menu" type="Node2D"]
-position = Vector2(0, 2)
+[node name="Main_menu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_r440u")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 0, 0, 1)
 show_behind_parent = true
 clip_children = 2
-offset_left = 1.0
-offset_top = -1.0
-offset_right = 540.0
-offset_bottom = 332.0
-
-[node name="Label" type="Label" parent="."]
-offset_left = 173.0
-offset_top = 26.0
-offset_right = 351.0
-offset_bottom = 95.0
-theme_override_font_sizes/font_size = 50
-text = "Fake ltd
-"
+layout_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 539.0
-offset_bottom = 329.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Fake ltd
+"
 
 [node name="Play" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -56,14 +46,7 @@ layout_mode = 2
 text = "Instructions"
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 470.0
-offset_top = -1.0
-offset_right = 540.0
-offset_bottom = 39.0
-grow_horizontal = 0
+layout_mode = 2
 
 [node name="Settings" type="Button" parent="CenterContainer2"]
 layout_mode = 2
