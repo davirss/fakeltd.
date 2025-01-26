@@ -2,75 +2,60 @@
 
 [ext_resource type="Script" path="res://Menu/main_menu.gd" id="1_r440u"]
 
-[node name="Main_menu" type="Node2D"]
-position = Vector2(0, 2)
+[node name="Main_menu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_r440u")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Control" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
 modulate = Color(1, 0, 0, 1)
 show_behind_parent = true
 clip_children = 2
-offset_left = 1.0
-offset_top = -1.0
-offset_right = 540.0
-offset_bottom = 332.0
+layout_mode = 2
 
-[node name="Label" type="Label" parent="."]
-offset_left = 173.0
-offset_top = 26.0
-offset_right = 351.0
-offset_bottom = 95.0
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Fake ltd
 "
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 539.0
-offset_bottom = 329.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-
-[node name="Play" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="Control/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Play"
 
-[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="Control/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[node name="Credits" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Credits" type="Button" parent="Control/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Credits"
 
-[node name="Instructions" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Instructions" type="Button" parent="Control/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Instructions"
 
-[node name="CenterContainer2" type="CenterContainer" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 470.0
-offset_top = -1.0
-offset_right = 540.0
-offset_bottom = 39.0
-grow_horizontal = 0
-
-[node name="Settings" type="Button" parent="CenterContainer2"]
+[node name="Settings" type="Button" parent="."]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
 text = "Settings"
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Instructions" to="." method="_on_instructions_pressed"]
-[connection signal="pressed" from="CenterContainer2/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Instructions" to="." method="_on_instructions_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
