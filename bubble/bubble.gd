@@ -10,11 +10,7 @@ class_name Bubble extends BubbleDefinitions
 
 var floating_target: Marker2D
 
-var _distributions: Dictionary = {
-	BubbleDefinitions.BubbleState.WHATSAPP: 	0.33,
-	BubbleDefinitions.BubbleState.FACEBOOK: 	0.33,
-	BubbleDefinitions.BubbleState.INSTAGRAM:	0.33,
-}
+var distributions: Dictionary
 var _time_to_convert_milliseconds: float = 5000
 var _ttc_variable_margin_percent: float = 0.3
 
@@ -27,10 +23,10 @@ func _calculate_variable_size_difference() -> void:
 
 
 func _calculate_distribution_ranges() -> void:
-	_distributions[BubbleDefinitions.BubbleState.FACEBOOK] += \
-		_distributions[BubbleDefinitions.BubbleState.WHATSAPP]
-	_distributions[BubbleDefinitions.BubbleState.INSTAGRAM] += \
-		_distributions[BubbleDefinitions.BubbleState.FACEBOOK]
+	distributions[BubbleDefinitions.BubbleState.FACEBOOK] += \
+		distributions[BubbleDefinitions.BubbleState.WHATSAPP]
+	distributions[BubbleDefinitions.BubbleState.INSTAGRAM] += \
+		distributions[BubbleDefinitions.BubbleState.FACEBOOK]
 
 
 func _calculate_variable_time_to_convert() -> void:
@@ -81,7 +77,7 @@ func _update_bubble_state_as_per_distribution() -> void:
 	]
 	
 	for next_bubble_state in bubble_states:
-		if (next_bubble_state_picker <= _distributions[next_bubble_state]):
+		if (next_bubble_state_picker < distributions[next_bubble_state]):
 			bubble_state = next_bubble_state
 			break
 	

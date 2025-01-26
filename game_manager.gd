@@ -2,6 +2,11 @@ extends GameManagerDefinitions
 
 @export var initial_bubbles_amount  = 20
 
+var _round_started = false
+var _selected_group: Array[BubbleDefinitions.BubbleState]
+var _selected_distributions: Dictionary
+
+
 var _ft_variable_margin_percent = 0.1
 
 var groupa_popped_bubbles = 0
@@ -14,11 +19,10 @@ var bubble_spawn_countdown: float = 0
 var bubble_change_cooldown = 2
 var bubble_change_countdown = bubble_change_cooldown
 
-var selected_group
-var round_started = false
 
 var audio = AudioStreamPlayer.new()
 @export var placeholder: PackedScene
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,22 +35,78 @@ func _ready() -> void:
 	Global.bubble_clicked.connect(_on_bubble_clicked)
 	Global.on_venn_pressed.connect(_on_ven_pressed)
 
+
 func _on_ven_pressed(left, top, right) -> void:
 	$VennController.selected = true
+	
 	if left && !top && !right:
-		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.FACEBOOK
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.375,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.375,
+		}
 	elif !left && top && !right:
-		selected_group = [BubbleDefinitions.BubbleState.FACEBOOK]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.INSTAGRAM
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.375,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.375,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.25,
+		}
 	elif !left && !top && right:
-		selected_group = [BubbleDefinitions.BubbleState.INSTAGRAM]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.WHATSAPP
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.375,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.375,
+		}
 	elif left && top && !right:
-		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP, BubbleDefinitions.BubbleState.FACEBOOK]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.FACEBOOK,
+			BubbleDefinitions.BubbleState.INSTAGRAM
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.5,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.25,
+		}
 	elif left && !top && right:
-		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP, BubbleDefinitions.BubbleState.INSTAGRAM]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.FACEBOOK,
+			BubbleDefinitions.BubbleState.WHATSAPP
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.5,
+		}
 	elif !left && top && right:
-		selected_group = [BubbleDefinitions.BubbleState.FACEBOOK, BubbleDefinitions.BubbleState.INSTAGRAM]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.WHATSAPP,
+			BubbleDefinitions.BubbleState.INSTAGRAM
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.5,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.25,
+		}
 	elif left && top && right:
-		selected_group = [BubbleDefinitions.BubbleState.WHATSAPP, BubbleDefinitions.BubbleState.FACEBOOK, BubbleDefinitions.BubbleState.INSTAGRAM]
+		_selected_group = [
+			BubbleDefinitions.BubbleState.WHATSAPP,
+			BubbleDefinitions.BubbleState.FACEBOOK,
+			BubbleDefinitions.BubbleState.INSTAGRAM
+		]
+		_selected_distributions = {
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.33,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.33,
+			BubbleDefinitions.BubbleState.INSTAGRAM:	0.33,
+		}
 	else:
 		print("Invalid state:", left, top, right)
 	
@@ -55,7 +115,7 @@ func _on_ven_pressed(left, top, right) -> void:
 	_start_round()
 
 func _start_round() -> void:
-	round_started = true
+	_round_started = true
 	## Spawn the initial_bubbles_amount
 	_spawn_initial_bubbles()
 
@@ -70,7 +130,7 @@ func _on_wrong_bubble_popped() -> void:
 
 
 func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) -> void:
-	if (!selected_group.has(state)):
+	if (!_selected_group.has(state)):
 		print("Wrong bubble")
 		_on_wrong_bubble_popped()
 		bubble.queue_free()
@@ -91,7 +151,7 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		groupc_popped_bubbles += 1
 	else:
 		_on_wrong_bubble_popped()
-
+	
 	bubble.queue_free()
 
 
@@ -111,25 +171,25 @@ func _spawn_new_bubble() -> void:
 		SPAWNING_MARKER.position.y * (1 - _ft_variable_margin_percent),
 		SPAWNING_MARKER.position.y * (1 + _ft_variable_margin_percent),
 	)
+	new_bubble.distributions = _selected_distributions.duplicate(true)
 	FIELD.add_child(new_bubble)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if round_started && !get_tree().has_group("bubble"):
-		round_started = false
+	if _round_started && !get_tree().has_group("bubble"):
+		_round_started = false
 		$AnimationPlayer.play_backwards("ven_animation")
 		await $AnimationPlayer.animation_finished
 		$VennController.selected = false
 
-	if round_started:
+	if _round_started:
 		_check_buble_spawn_countdown()
 		if (bubble_spawn_countdown >= 0):
 			bubble_spawn_countdown -= delta
-			print(str(bubble_spawn_countdown))
+
 
 func _check_buble_spawn_countdown(): 
-	print(bubble_spawn_countdown)
 	if bubble_spawn_countdown <= 0:
 		bubble_spawn_countdown = bubble_change_cooldown
 		_spawn_new_bubble()
