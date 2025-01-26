@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ducimwsq04ow1"]
+[gd_scene load_steps=3 format=3 uid="uid://ducimwsq04ow1"]
 
+[ext_resource type="VideoStream" path="res://Resources/background/0001-1000.ogv" id="1_al51g"]
 [ext_resource type="Script" path="res://Menu/back.gd" id="1_fsuo2"]
 
 [node name="Instructions" type="MarginContainer"]
@@ -12,11 +13,11 @@ grow_vertical = 2
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
-modulate = Color(1, 0.0117647, 0, 1)
-show_behind_parent = true
-clip_children = 2
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="MarginContainer"]
 layout_mode = 2
+stream = ExtResource("1_al51g")
+autoplay = true
+expand = true
 
 [node name="HBoxContainer" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -48,18 +49,6 @@ custom_minimum_size = Vector2(800, 500)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-
-viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-v
-vviva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-
-viva a morte do meu pau e vai tomar no cu. viva a morte do meu pau e vai tomar no cu. 
-"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Back" to="MarginContainer/HBoxContainer/Back" method="_on_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Settings" to="MarginContainer/HBoxContainer/Back" method="_on_settings_pressed"]

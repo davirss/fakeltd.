@@ -12,18 +12,18 @@ func _process(delta: float) -> void:
 
 
 func _on_instructions_pressed() -> void:
-	get_tree().change_scene_to_file("res://instructions.tscn")
+	get_tree().change_scene_to_file("res://Menu/instructions.tscn")
 
 
 func _on_credits_pressed() -> void:
-	get_tree().change_scene_to_file("res://credits.tscn")
+	get_tree().change_scene_to_file("res://Menu/credits.tscn")
 
 func _on_settings_pressed() -> void:
-	get_tree().change_scene_to_file("res://settings.tscn")
+	get_tree().change_scene_to_file("res://Menu/settings.tscn")
 
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://game.tscn")
+	get_tree().change_scene_to_file("res://Menu/game.tscn")
