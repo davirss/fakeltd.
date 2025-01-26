@@ -102,6 +102,7 @@ func _update_bubble_state_as_per_distribution() -> void:
 
 
 func _prepare_to_grow() -> void:
+	BODY_COLLISION_SHAPE.set_deferred("disabled", false)
 	MOUSE_COLLISION_SHAPE.scale = Vector2(0.0, 0.0)
 	BODY_COLLISION_SHAPE.scale = Vector2(0.0, 0.0)
 	BUBBLE_SPRITE.scale = Vector2(0.0, 0.0)
@@ -120,7 +121,9 @@ func _ready() -> void:
 	_update_sprite(null)
 
 
-func _animate_size_update_for_neutral_state(time_to_update_milliseconds: float) -> void:
+func _animate_size_update_for_neutral_state() -> float:
+	var time_to_update_milliseconds := _time_to_convert_milliseconds
+	
 	var physics_growth: float = min(
 		1.0, _elapsed_time_milliseconds / (time_to_update_milliseconds * 0.4)
 	)
@@ -140,6 +143,8 @@ func _animate_size_update_for_neutral_state(time_to_update_milliseconds: float) 
 	BUBBLE_SHADE.scale = Vector2(visual_growth, visual_growth)
 	BUBBLE_SPRITE.scale = Vector2(visual_growth, visual_growth)
 	BODY_COLLISION_SHAPE.scale = Vector2(physics_growth, physics_growth)
+	
+	return time_to_update_milliseconds
 
 
 func _calculate_time_to_update_for_non_neutral_state() -> float:
@@ -148,9 +153,26 @@ func _calculate_time_to_update_for_non_neutral_state() -> float:
 	
 	var currrent_bubbles_amount := get_tree().get_nodes_in_group("bubble").size()
 	var percentage := currrent_bubbles_amount * 1.0 / initial_bubbles_amount
-	var calculated := min_target + (max_target - min_target) * percentage
+	var time_to_update_milliseconds := min_target + (max_target - min_target) * percentage
 	
-	return calculated
+	var physics_growth := 1.0 + _fixed_size_difference
+	
+	var clickable_growth := _ease_out_elastic(physics_growth) * _variable_size_difference
+	clickable_growth += _fixed_size_difference
+	
+	var visual_growth: float
+	
+	if _is_currently_popping():
+		visual_growth = clickable_growth
+	else:
+		visual_growth = clickable_growth * 0.2
+	
+	MOUSE_COLLISION_SHAPE.scale = Vector2(clickable_growth, clickable_growth)
+	BUBBLE_SHADE.scale = Vector2(visual_growth, visual_growth)
+	BUBBLE_SPRITE.scale = Vector2(visual_growth, visual_growth)
+	BODY_COLLISION_SHAPE.scale = Vector2(physics_growth, physics_growth)
+	
+	return time_to_update_milliseconds
 
 
 func _ease_out_elastic(number: float) -> float:
@@ -175,8 +197,7 @@ func _process(delta_seconds: float) -> void:
 	var time_to_update_milliseconds: float
 	match (bubble_state):
 		BubbleDefinitions.BubbleState.NEUTRAL:
-			time_to_update_milliseconds = _time_to_convert_milliseconds
-			_animate_size_update_for_neutral_state(time_to_update_milliseconds)
+			time_to_update_milliseconds = _animate_size_update_for_neutral_state()
 		BubbleDefinitions.BubbleState.WHATSAPP:
 			time_to_update_milliseconds = _calculate_time_to_update_for_non_neutral_state()
 		BubbleDefinitions.BubbleState.FACEBOOK:
@@ -221,13 +242,13 @@ func destroy_self() -> void:
 			BubbleDefinitions.BubbleState.NEUTRAL:
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_WHITE)
 			BubbleDefinitions.BubbleState.FACEBOOK:
-				BUBBLE_SPRITE.scale /= 0.2
+				BUBBLE_SPRITE.scale = BUBBLE_SPRITE.scale / 0.2
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_BLUE)
 			BubbleDefinitions.BubbleState.WHATSAPP:
-				BUBBLE_SPRITE.scale /= 0.2
+				BUBBLE_SPRITE.scale = BUBBLE_SPRITE.scale / 0.2
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_GREEN)
 			BubbleDefinitions.BubbleState.INSTAGRAM:
-				BUBBLE_SPRITE.scale /= 0.2
+				BUBBLE_SPRITE.scale = BUBBLE_SPRITE.scale / 0.2
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_PINK)
 		
 		await BUBBLE_SPRITE.animation_finished
