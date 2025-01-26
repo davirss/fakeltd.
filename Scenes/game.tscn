@@ -1,14 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dhdc0ckmuduvf"]
+[gd_scene load_steps=9 format=3 uid="uid://dhdc0ckmuduvf"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_7gb4w"]
 [ext_resource type="PackedScene" uid="uid://jsskjmbbjspf" path="res://bubble/bubble.tscn" id="2_yeahh"]
 [ext_resource type="PackedScene" uid="uid://bc3gn5uh1lea" path="res://Scenes/ven_controller.tscn" id="3_3oy8c"]
 [ext_resource type="Script" path="res://Scenes/spawning_marker.gd" id="3_algbn"]
 [ext_resource type="Script" path="res://Scenes/floating_target.gd" id="3_drd3v"]
-[ext_resource type="PackedScene" uid="uid://bwws8ulogsveg" path="res://Scenes/Influences.tscn" id="6_j03eu"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_23fjt"]
-radius = 450.0
 
 [sub_resource type="Animation" id="Animation_3bi4q"]
 length = 0.001
@@ -86,12 +82,6 @@ script = ExtResource("3_algbn")
 position = Vector2(640, 360)
 script = ExtResource("3_drd3v")
 
-[node name="GameOverArea" type="Area2D" parent="Field"]
-
-[node name="GameOverShape" type="CollisionShape2D" parent="Field/GameOverArea"]
-position = Vector2(645, 360)
-shape = SubResource("CircleShape2D_23fjt")
-
 [node name="VennController" parent="." instance=ExtResource("3_3oy8c")]
 position = Vector2(641, 348)
 scale = Vector2(3, 3)
@@ -100,13 +90,3 @@ scale = Vector2(3, 3)
 libraries = {
 "": SubResource("AnimationLibrary_7onqm")
 }
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-
-[node name="Influences" parent="." instance=ExtResource("6_j03eu")]
-offset_left = 34.0
-offset_top = 592.0
-offset_right = 158.0
-offset_bottom = 681.0
-
-[connection signal="body_exited" from="Field/GameOverArea" to="." method="_on_area_2d_body_exited"]
