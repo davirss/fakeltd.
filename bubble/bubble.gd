@@ -36,7 +36,10 @@ func _calculate_variable_time_to_convert() -> void:
 	)
 
 
-func _update_sprite() -> void:
+func _update_sprite(previous_bubble_state: BubbleDefinitions.BubbleState) -> void:
+	if (previous_bubble_state == bubble_state):
+		return
+	
 	match bubble_state:
 		BubbleDefinitions.BubbleState.NEUTRAL:
 			if randf() >= 0.5:
@@ -76,12 +79,14 @@ func _update_bubble_state_as_per_distribution() -> void:
 		BubbleDefinitions.BubbleState.INSTAGRAM,
 	]
 	
+	var previous_bubble_state = bubble_state
+	
 	for next_bubble_state in bubble_states:
 		if (next_bubble_state_picker < distributions[next_bubble_state]):
 			bubble_state = next_bubble_state
 			break
 	
-	_update_sprite()
+	_update_sprite(previous_bubble_state)
 
 
 func _prepare_to_grow() -> void:
@@ -95,7 +100,7 @@ func _ready() -> void:
 	_calculate_variable_size_difference()
 	_calculate_distribution_ranges()
 	_calculate_variable_time_to_convert()
-	_update_sprite()
+	_update_sprite(bubble_state)
 	_prepare_to_grow()
 
 
