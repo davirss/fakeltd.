@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwws8ulogsveg"]
+
+[ext_resource type="Texture2D" uid="uid://dskd0rvt6r8dy" path="res://Resources/bubbles sprites/bubble-1-blue.png" id="1_1o014"]
+[ext_resource type="Script" path="res://influence_bars/influence_bars.gd" id="1_714sy"]
+[ext_resource type="Texture2D" uid="uid://c6kmqtuyqbnxi" path="res://Resources/bubbles sprites/bubble-1-pink.png" id="3_wvu1c"]
+[ext_resource type="Texture2D" uid="uid://bv2in8qyjwsg2" path="res://Resources/bubbles sprites/bubble-2-green.png" id="4_wadnv"]
+
+[node name="Influences" type="VBoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -44.5
+offset_right = 4.0
+offset_bottom = 44.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.994185, 1)
+script = ExtResource("1_714sy")
+
+[node name="FirstGroup" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(124, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="FirstGroup"]
+layout_mode = 2
+texture = ExtResource("1_1o014")
+expand_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="FirstGroup"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+rounded = true
+
+[node name="SecondGroup" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(124, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="SecondGroup"]
+layout_mode = 2
+texture = ExtResource("3_wvu1c")
+expand_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="SecondGroup"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(124, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer3"]
+layout_mode = 2
+texture = ExtResource("4_wadnv")
+expand_mode = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
