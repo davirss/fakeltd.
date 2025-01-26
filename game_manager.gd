@@ -172,6 +172,7 @@ func _spawn_new_bubble() -> void:
 		SPAWNING_MARKER.position.y * (1 + _ft_variable_margin_percent),
 	)
 	new_bubble.distributions = _selected_distributions.duplicate(true)
+	new_bubble.initial_bubbles_amount = initial_bubbles_amount
 	FIELD.add_child(new_bubble)
 
 
@@ -191,5 +192,5 @@ func _process(delta: float) -> void:
 
 func _check_buble_spawn_countdown(): 
 	if bubble_spawn_countdown <= 0:
-		bubble_spawn_countdown = bubble_change_cooldown
+		bubble_spawn_countdown = bubble_spawn_cooldown
 		_spawn_new_bubble()
