@@ -379,7 +379,7 @@ texture = ExtResource("2_aon60")
 texture_filter = 1
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_0kvfu")
-animation = &"idle_white"
+animation = &"pop_white"
 
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
 visible = false

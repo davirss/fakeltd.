@@ -6,15 +6,13 @@ var _round_started = false
 var _selected_group: Array[BubbleDefinitions.BubbleState]
 var _selected_distributions: Dictionary
 
-
 var _ft_variable_margin_percent = 0.1
 
-var bubble_spawn_cooldown = 1
+var bubble_spawn_cooldown = 2
 var bubble_spawn_countdown: float = 0
 
 var bubble_change_cooldown = 2
 var bubble_change_countdown = bubble_change_cooldown
-
 
 var influence_a = 100
 var influence_b = 100
@@ -35,9 +33,9 @@ func _ready() -> void:
 	Global.bubble_clicked.connect(_on_bubble_clicked)
 	Global.on_venn_pressed.connect(_on_ven_pressed)
 	Global.influence_over.connect(_game_over)
-	$Influences.bar_1 = influence_a
-	$Influences.bar_2 = influence_b
-	$Influences.bar_3 = influence_c
+	$DayController/Influences.bar_1 = influence_a
+	$DayController/Influences.bar_2 = influence_b
+	$DayController/Influences.bar_3 = influence_c
 
 func _on_ven_pressed(left, top, right) -> void:
 	$VennController.selected = true
@@ -128,7 +126,7 @@ func _maximize_diagram():
 
 func _start_round() -> void:
 	_round_started = true
-	$Influences.elapsed = true
+	$DayController/Influences.elapsed = true
 	## Spawn the initial_bubbles_amount
 	_spawn_initial_bubbles()
 
@@ -139,15 +137,15 @@ func _spawn_initial_bubbles() -> void:
 func _on_wrong_bubble_popped(state:  BubbleDefinitions.BubbleState) -> void:
 	match state:
 		BubbleDefinitions.BubbleState.WHATSAPP:
-			$Influences.decrease_first(0.5)
+			$DayController/Influences.decrease_third(1)
 		BubbleDefinitions.BubbleState.FACEBOOK:
-			$Influences.decrease_second(0.5)
+			$DayController/Influences.decrease_first(1)
 		BubbleDefinitions.BubbleState.INSTAGRAM:
-			$Influences.decrease_third(0.5)
+			$DayController/Influences.decrease_second(1)
 		BubbleDefinitions.BubbleState.NEUTRAL:
-			$Influences.decrease_first(0.5)
-			$Influences.decrease_second(0.5)
-			$Influences.decrease_third(0.5)
+			$DayController/Influences.decrease_first(1)
+			$DayController/Influences.decrease_second(1)
+			$DayController/Influences.decrease_third(1)
 	_spawn_new_bubble(true)
 	_spawn_new_bubble(true)
 
@@ -160,6 +158,14 @@ func _on_bubble_clicked(state: BubbleDefinitions.BubbleState, bubble: Bubble) ->
 		audio.play()
 		return
 
+	match state:
+		BubbleDefinitions.BubbleState.WHATSAPP:
+			$DayController/Influences.increase_first(1 / _selected_group.size())
+		BubbleDefinitions.BubbleState.FACEBOOK:
+			$DayController/Influences.increase_second(1  / _selected_group.size())
+		BubbleDefinitions.BubbleState.INSTAGRAM:
+			$DayController/Influences.incrase_third(1 / _selected_group.size())
+
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
 	audio.play()
 	bubble.destroy_self()
@@ -170,9 +176,8 @@ func _spawn_new_bubble(is_init_or_from_mistake: bool) -> void:
 		var currrent_bubbles_amount := get_tree().get_nodes_in_group("bubble").size()
 		if currrent_bubbles_amount == 1:
 			return
-	
+
 	audio.stream = load("res://Resources/Sounds/Pop Sound Effects -3.ogg")
-	add_child(audio)
 	audio.play()
 	
 	# Spawn new bubble
@@ -203,7 +208,7 @@ func _process(delta: float) -> void:
 
 func _game_over():
 	_round_started = false
-	$Influences.elapsed = false
+	$DayController/Influences.elapsed = false
 
 	var nodes = get_tree().get_nodes_in_group("bubble");
 	for bubble in nodes:

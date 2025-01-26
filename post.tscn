@@ -17,10 +17,14 @@ theme_override_constants/separation = 16
 
 [node name="RichTextLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "This wil be an absurd news that everyone should know that it's fake but it's not."
+size_flags_horizontal = 0
+text = "This wil be an absurd news that 
+everyone should know that it's 
+fake but it's not."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_constants/separation = 8
 
 [node name="Comments" type="Label" parent="VBoxContainer/HBoxContainer"]

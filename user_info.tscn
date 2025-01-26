@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dq8cvjr2w7ja3"]
 
-[ext_resource type="Texture2D" uid="uid://dtdgklhqmef68" path="res://icon.svg" id="1_g1303"]
 [ext_resource type="Script" path="res://user_info.gd" id="1_jjgcu"]
+[ext_resource type="Texture2D" uid="uid://d31vbyticoop1" path="res://Resources/profile/profile-woman.png" id="2_jgawb"]
 
 [node name="UserInfo" type="VBoxContainer"]
 offset_right = 133.0
@@ -10,7 +10,7 @@ script = ExtResource("1_jjgcu")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 2
-texture = ExtResource("1_g1303")
+texture = ExtResource("2_jgawb")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -19,6 +19,7 @@ alignment = 1
 [node name="CurrentFollowers" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "100m followers"
 
 [node name="DailyNew" type="Label" parent="HBoxContainer"]
 layout_mode = 2

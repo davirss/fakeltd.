@@ -1,11 +1,10 @@
 extends Marker2D
 
-
 var _floating_target_initial_position: Vector2
 var _ft_variable_margin_percent: float = 0.05
 var _ft_elapsed_time: float = 0.0
 var _ft_orbital_speed: float = 1.6
-var _ft_distance_from_center: int = 240
+var _ft_distance_from_center: int = 60
 
 
 func _ready() -> void:
