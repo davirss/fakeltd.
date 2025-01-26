@@ -104,9 +104,9 @@ func _update_bubble_state_as_per_distribution() -> void:
 func _prepare_to_grow() -> void:
 	MOUSE_COLLISION_SHAPE.scale = Vector2(0.0, 0.0)
 	BODY_COLLISION_SHAPE.scale = Vector2(0.0, 0.0)
-	BUBBLE_SPRITE.scale = Vector2(1.0, 1.0)
+	BUBBLE_SPRITE.scale = Vector2(0.0, 0.0)
 	BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_WHITE)
-	BUBBLE_SHADE.scale = Vector2(1.0, 1.0)
+	BUBBLE_SHADE.scale = Vector2(0.0, 0.0)
 	BUBBLE_SHADE.set_visible(true)
 
 
