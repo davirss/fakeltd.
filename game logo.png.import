@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lcq3ovhbjjct"
-path="res://.godot/imported/venn.png-3e3527118bbffdbd6f209a89a3684b70.ctex"
+uid="uid://bffies1pf3sbk"
+path="res://.godot/imported/game logo.png-0beb67818765df654d2d064db34db959.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://venn.png"
-dest_files=["res://.godot/imported/venn.png-3e3527118bbffdbd6f209a89a3684b70.ctex"]
+source_file="res://game logo.png"
+dest_files=["res://.godot/imported/game logo.png-0beb67818765df654d2d064db34db959.ctex"]
 
 [params]
 
