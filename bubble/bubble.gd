@@ -47,33 +47,17 @@ func _update_sprite(previous_bubble_state) -> void:
 	
 	match bubble_state:
 		BubbleDefinitions.BubbleState.NEUTRAL:
-			if randf() >= 0.5:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_WHITE)
-				BUBBLE_SHADE.set_modulate(Color(Color.ALICE_BLUE, 0.1375))
-			else:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_WHITE_ALT)
-				BUBBLE_SHADE.set_modulate(Color(Color.ALICE_BLUE, 0.1375))
+			BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_WHITE)
+			BUBBLE_SHADE.set_modulate(Color(Color.ALICE_BLUE, 0.1375))
 		BubbleDefinitions.BubbleState.WHATSAPP:
-			if randf() >= 0.5:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_GREEN)
-				BUBBLE_SHADE.set_modulate(Color(Color.LAWN_GREEN, 0.1375))
-			else:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_GREEN_ALT)
-				BUBBLE_SHADE.set_modulate(Color(Color.PALE_GREEN, 0.1375))
+			BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_GREEN)
+			BUBBLE_SHADE.set_modulate(Color(Color.LAWN_GREEN, 0.1375))
 		BubbleDefinitions.BubbleState.FACEBOOK:
-			if randf() >= 0.5:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_BLUE)
-				BUBBLE_SHADE.set_modulate(Color(Color.NAVY_BLUE, 0.1375))
-			else:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_BLUE_ALT)
-				BUBBLE_SHADE.set_modulate(Color(Color.ROYAL_BLUE, 0.1375))
+			BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_BLUE)
+			BUBBLE_SHADE.set_modulate(Color(Color.NAVY_BLUE, 0.1375))
 		BubbleDefinitions.BubbleState.INSTAGRAM:
-			if randf() >= 0.5:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_PINK)
-				BUBBLE_SHADE.set_modulate(Color(Color.DEEP_PINK, 0.1375))
-			else:
-				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_PINK_ALT)
-				BUBBLE_SHADE.set_modulate(Color(Color.HOT_PINK, 0.1375))
+			BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_IDLE_PINK)
+			BUBBLE_SHADE.set_modulate(Color(Color.DEEP_PINK, 0.1375))
 
 
 func _update_bubble_state_as_per_distribution() -> void:
@@ -132,16 +116,9 @@ func _animate_size_update_for_neutral_state() -> float:
 	var clickable_growth := _ease_out_elastic(physics_growth) * _variable_size_difference
 	clickable_growth += _fixed_size_difference
 	
-	var visual_growth: float
-	
-	if _is_currently_popping():
-		visual_growth = clickable_growth
-	else:
-		visual_growth = clickable_growth * 0.2
-	
 	MOUSE_COLLISION_SHAPE.scale = Vector2(clickable_growth, clickable_growth)
-	BUBBLE_SHADE.scale = Vector2(visual_growth, visual_growth)
-	BUBBLE_SPRITE.scale = Vector2(visual_growth, visual_growth)
+	BUBBLE_SHADE.scale = Vector2(clickable_growth, clickable_growth)
+	BUBBLE_SPRITE.scale = Vector2(clickable_growth, clickable_growth)
 	BODY_COLLISION_SHAPE.scale = Vector2(physics_growth, physics_growth)
 	
 	return time_to_update_milliseconds
@@ -165,7 +142,7 @@ func _calculate_time_to_update_for_non_neutral_state() -> float:
 	if _is_currently_popping():
 		visual_growth = clickable_growth
 	else:
-		visual_growth = clickable_growth * 0.2
+		visual_growth = clickable_growth
 	
 	MOUSE_COLLISION_SHAPE.scale = Vector2(clickable_growth, clickable_growth)
 	BUBBLE_SHADE.scale = Vector2(visual_growth, visual_growth)
@@ -242,13 +219,10 @@ func destroy_self() -> void:
 			BubbleDefinitions.BubbleState.NEUTRAL:
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_WHITE)
 			BubbleDefinitions.BubbleState.FACEBOOK:
-				BUBBLE_SPRITE.scale = BUBBLE_SPRITE.scale / 0.2
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_BLUE)
 			BubbleDefinitions.BubbleState.WHATSAPP:
-				BUBBLE_SPRITE.scale = BUBBLE_SPRITE.scale / 0.2
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_GREEN)
 			BubbleDefinitions.BubbleState.INSTAGRAM:
-				BUBBLE_SPRITE.scale = BUBBLE_SPRITE.scale / 0.2
 				BUBBLE_SPRITE.play(BUBBLE_SPRITE_ANIM_POP_PINK)
 		
 		await BUBBLE_SPRITE.animation_finished
