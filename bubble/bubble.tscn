@@ -1,50 +1,26 @@
-[gd_scene load_steps=55 format=3 uid="uid://jsskjmbbjspf"]
+[gd_scene load_steps=43 format=3 uid="uid://jsskjmbbjspf"]
 
 [ext_resource type="Script" path="res://bubble/bubble.gd" id="1_ufsww"]
 [ext_resource type="Texture2D" uid="uid://bb028qj7qiiyw" path="res://Resources/bubbles sprites/bubble-shade.png" id="2_aon60"]
-[ext_resource type="Texture2D" uid="uid://xuiv3y1du2ij" path="res://Resources/bubbles sprites/bubble-1-white.png" id="2_hx1px"]
 [ext_resource type="Texture2D" uid="uid://bwk2h82e6t517" path="res://Resources/bubbles sprites/bubbles-poping-sprite sheet.png" id="3_v42x3"]
-[ext_resource type="Texture2D" uid="uid://d4hgseoslbge6" path="res://Resources/bubbles sprites/bubble-1-green.png" id="4_7rynx"]
-[ext_resource type="Texture2D" uid="uid://dskd0rvt6r8dy" path="res://Resources/bubbles sprites/bubble-1-blue.png" id="4_dkklh"]
-[ext_resource type="Texture2D" uid="uid://c6kmqtuyqbnxi" path="res://Resources/bubbles sprites/bubble-1-pink.png" id="4_p02qi"]
-[ext_resource type="Texture2D" uid="uid://gdsrnfkwoyx2" path="res://Resources/bubbles sprites/bubble-2-blue.png" id="5_rldod"]
-[ext_resource type="Texture2D" uid="uid://bv2in8qyjwsg2" path="res://Resources/bubbles sprites/bubble-2-green.png" id="7_etm51"]
-[ext_resource type="Texture2D" uid="uid://mkw7kragxbju" path="res://Resources/bubbles sprites/bubble-2-pink.png" id="9_n0n80"]
-[ext_resource type="Texture2D" uid="uid://bdfbstgn4kvh0" path="res://Resources/bubbles sprites/bubble-2-white.png" id="10_5uabn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cypwk"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lftcu"]
-atlas = ExtResource("4_dkklh")
-region = Rect2(0, 0, 160, 160)
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcisw"]
+atlas = ExtResource("3_v42x3")
+region = Rect2(0, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fnmhh"]
-atlas = ExtResource("5_rldod")
-region = Rect2(0, 0, 160, 160)
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn7y7"]
+atlas = ExtResource("3_v42x3")
+region = Rect2(0, 64, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nbwu5"]
-atlas = ExtResource("4_7rynx")
-region = Rect2(0, 0, 160, 160)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajrsm"]
+atlas = ExtResource("3_v42x3")
+region = Rect2(0, 96, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b2qwd"]
-atlas = ExtResource("7_etm51")
-region = Rect2(0, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_btehp"]
-atlas = ExtResource("4_p02qi")
-region = Rect2(0, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hqs7e"]
-atlas = ExtResource("9_n0n80")
-region = Rect2(0, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uxtt8"]
-atlas = ExtResource("2_hx1px")
-region = Rect2(0, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dbdrg"]
-atlas = ExtResource("10_5uabn")
-region = Rect2(0, 0, 160, 160)
+[sub_resource type="AtlasTexture" id="AtlasTexture_5l4ct"]
+atlas = ExtResource("3_v42x3")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7n25p"]
 atlas = ExtResource("3_v42x3")
@@ -178,7 +154,7 @@ region = Rect2(224, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lftcu")
+"texture": SubResource("AtlasTexture_pcisw")
 }],
 "loop": true,
 "name": &"idle_blue",
@@ -186,15 +162,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fnmhh")
-}],
-"loop": true,
-"name": &"idle_blue_alt",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nbwu5")
+"texture": SubResource("AtlasTexture_qn7y7")
 }],
 "loop": true,
 "name": &"idle_green",
@@ -202,15 +170,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b2qwd")
-}],
-"loop": true,
-"name": &"idle_green_alt",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_btehp")
+"texture": SubResource("AtlasTexture_ajrsm")
 }],
 "loop": true,
 "name": &"idle_pink",
@@ -218,26 +178,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hqs7e")
-}],
-"loop": true,
-"name": &"idle_pink_alt",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uxtt8")
+"texture": SubResource("AtlasTexture_5l4ct")
 }],
 "loop": true,
 "name": &"idle_white",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dbdrg")
-}],
-"loop": true,
-"name": &"idle_white_alt",
 "speed": 5.0
 }, {
 "frames": [{
@@ -372,17 +316,14 @@ shape = SubResource("CircleShape2D_cypwk")
 [node name="BubbleShade" type="Sprite2D" parent="View"]
 modulate = Color(1, 1, 1, 0)
 texture_filter = 1
-scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_aon60")
 
 [node name="BubbleSprite" type="AnimatedSprite2D" parent="View"]
 texture_filter = 1
-scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_0kvfu")
-animation = &"pop_white"
+animation = &"idle_blue"
 
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_pu1x0")
 
 [connection signal="mouse_entered" from="View" to="." method="_on_body_mouse_entered"]
