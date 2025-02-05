@@ -42,11 +42,11 @@ func _on_ven_pressed(left, top, right) -> void:
 
 	if left && !top && !right:
 		_selected_group = [
-			BubbleDefinitions.BubbleState.FACEBOOK
+			BubbleDefinitions.BubbleState.WHATSAPP
 		]
 		_selected_distributions = {
-			BubbleDefinitions.BubbleState.WHATSAPP: 	0.375,
-			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.375,
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
 			BubbleDefinitions.BubbleState.INSTAGRAM:	0.375,
 		}
 	elif !left && top && !right:
@@ -60,21 +60,21 @@ func _on_ven_pressed(left, top, right) -> void:
 		}
 	elif !left && !top && right:
 		_selected_group = [
-			BubbleDefinitions.BubbleState.WHATSAPP
+			BubbleDefinitions.BubbleState.FACEBOOK
 		]
 		_selected_distributions = {
-			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
-			BubbleDefinitions.BubbleState.FACEBOOK: 	0.375,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.375,
 			BubbleDefinitions.BubbleState.INSTAGRAM:	0.375,
 		}
 	elif left && top && !right:
 		_selected_group = [
-			BubbleDefinitions.BubbleState.FACEBOOK,
+			BubbleDefinitions.BubbleState.WHATSAPP,
 			BubbleDefinitions.BubbleState.INSTAGRAM
 		]
 		_selected_distributions = {
-			BubbleDefinitions.BubbleState.WHATSAPP: 	0.5,
-			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.5,
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
 			BubbleDefinitions.BubbleState.INSTAGRAM:	0.25,
 		}
 	elif left && !top && right:
@@ -89,12 +89,12 @@ func _on_ven_pressed(left, top, right) -> void:
 		}
 	elif !left && top && right:
 		_selected_group = [
-			BubbleDefinitions.BubbleState.WHATSAPP,
+			BubbleDefinitions.BubbleState.FACEBOOK,
 			BubbleDefinitions.BubbleState.INSTAGRAM
 		]
 		_selected_distributions = {
-			BubbleDefinitions.BubbleState.WHATSAPP: 	0.25,
-			BubbleDefinitions.BubbleState.FACEBOOK: 	0.5,
+			BubbleDefinitions.BubbleState.FACEBOOK: 	0.25,
+			BubbleDefinitions.BubbleState.WHATSAPP: 	0.5,
 			BubbleDefinitions.BubbleState.INSTAGRAM:	0.25,
 		}
 	elif left && top && right:
