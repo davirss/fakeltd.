@@ -112,6 +112,7 @@ func _prepare_to_grow() -> void:
 
 
 func _ready() -> void:
+	input_event.connect(_input_bubble)
 	seed(1)
 	randomize()
 	_prepare_to_grow()
@@ -217,20 +218,10 @@ func _process(delta_seconds: float) -> void:
 		move_and_slide()
 
 
-func _input(event: InputEvent) -> void:
+func _input_bubble(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse and event.is_pressed():
-		if _is_currently_hovered:
-			# Emit signal of selected bubble
-			Global.bubble_clicked.emit(bubble_state, self)
-
-
-var _is_currently_hovered: bool = false
-func _on_body_mouse_entered() -> void:
-	_is_currently_hovered = true
-
-
-func _on_body_mouse_exited() -> void:
-	_is_currently_hovered = false
+		# Emit signal of selected bubble
+		Global.bubble_clicked.emit(bubble_state, self)
 
 
 func destroy_self() -> void:
