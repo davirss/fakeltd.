@@ -361,6 +361,7 @@ animations = [{
 
 [node name="Bubble" type="CharacterBody2D" groups=["bubble"]]
 scale = Vector2(4, 4)
+input_pickable = true
 script = ExtResource("1_ufsww")
 
 [node name="View" type="Area2D" parent="."]
