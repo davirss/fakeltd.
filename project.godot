@@ -14,8 +14,6 @@ config/name="FakeInc"
 run/main_scene="res://alt/alt_game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://Resources/icon.svg"
-<<<<<<<HEADrun/main_scene="res://Scenes/day_controller.tscn"
-<<<<<<<Updatedupstreamrun/main_scene="res://field.tscn"
 
 [autoload]
 
@@ -26,6 +24,7 @@ Global="*res://Global.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [input]
 

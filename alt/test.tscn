@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2erheslh7sdc"]
+
+[ext_resource type="Shader" path="res://alt/ripple_shader.gdshader" id="1_lhrlg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5y3la"]
+shader = ExtResource("1_lhrlg")
+
+[node name="Test" type="Control"]
+material = SubResource("ShaderMaterial_5y3la")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

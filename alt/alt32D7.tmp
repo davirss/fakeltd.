@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://wx2wl8ksy2l2"]
+
+[ext_resource type="Script" path="res://alt/alt_game.gd" id="1_h2xl8"]
+[ext_resource type="Texture2D" uid="uid://tkt0em0gbtql" path="res://Resources/background/bakcground-2.webp" id="1_pane5"]
+[ext_resource type="PackedScene" uid="uid://bakwqivxl1p2u" path="res://alt/alt_bubble.tscn" id="2_nbh43"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4x2u1"]
+size = Vector2(1308, 101)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgatb"]
+size = Vector2(1290, 55)
+
+[node name="AltGame" type="Node2D"]
+script = ExtResource("1_h2xl8")
+object_to_spawn = ExtResource("2_nbh43")
+
+[node name="DeadZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone"]
+position = Vector2(644, 40.5)
+shape = SubResource("RectangleShape2D_4x2u1")
+
+[node name="SpawnZone" type="Area2D" parent="."]
+position = Vector2(641, 750)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnZone"]
+shape = SubResource("RectangleShape2D_wgatb")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Bakcground-2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(641, 642)
+scale = Vector2(1.26563, 1.26563)
+texture = ExtResource("1_pane5")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5

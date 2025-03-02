@@ -1,0 +1,144 @@
+[gd_scene load_steps=9 format=3 uid="uid://wx2wl8ksy2l2"]
+
+[ext_resource type="Script" path="res://alt/alt_game.gd" id="1_h2xl8"]
+[ext_resource type="Texture2D" uid="uid://tkt0em0gbtql" path="res://Resources/background/bakcground-2.webp" id="1_pane5"]
+[ext_resource type="PackedScene" uid="uid://bakwqivxl1p2u" path="res://alt/alt_bubble.tscn" id="2_nbh43"]
+[ext_resource type="Script" path="res://alt/area_2d.gd" id="4_dd86q"]
+[ext_resource type="Texture2D" uid="uid://bb028qj7qiiyw" path="res://Resources/bubbles sprites/bubble-shade.png" id="5_38m45"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4x2u1"]
+size = Vector2(1308, 101)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wgatb"]
+size = Vector2(1290, 55)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k01og"]
+radius = 25.0
+
+[node name="AltGame" type="Node2D"]
+script = ExtResource("1_h2xl8")
+object_to_spawn = ExtResource("2_nbh43")
+
+[node name="DeadZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone"]
+position = Vector2(644, 40.5)
+shape = SubResource("RectangleShape2D_4x2u1")
+
+[node name="SpawnZone" type="Area2D" parent="."]
+position = Vector2(641, 750)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnZone"]
+shape = SubResource("RectangleShape2D_wgatb")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Bakcground-2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(641, 642)
+scale = Vector2(1.26563, 1.26563)
+texture = ExtResource("1_pane5")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 101.0
+offset_top = 52.0
+offset_right = 101.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 10.0
+offset_right = 114.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="Container/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "LEVEL 1:"
+
+[node name="TotalBubblesLabel" type="Label" parent="Container/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0/10"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PopRadiusLabel" type="Label" parent="Container/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "POP RADIUS: "
+
+[node name="PopRadiusSlider" type="HSlider" parent="Container/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Pop Strength:
+"
+
+[node name="MinusStrengthBtn" type="Button" parent="Container/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "-"
+
+[node name="StrengthLabel" type="Label" parent="Container/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "1"
+
+[node name="PlusStrengthBtn" type="Button" parent="Container/MarginContainer/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "+"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Container/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "BUBBLE SPAWN TIME: "
+
+[node name="HSlider" type="HSlider" parent="Container/MarginContainer/VBoxContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+value = 1.0
+
+[node name="Popper" type="Area2D" parent="."]
+script = ExtResource("4_dd86q")
+
+[node name="Sprite2D" type="Sprite2D" parent="Popper"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_38m45")
+
+[node name="PopperShape" type="CollisionShape2D" parent="Popper"]
+shape = SubResource("CircleShape2D_k01og")
+
+[connection signal="value_changed" from="Container/MarginContainer/VBoxContainer/HBoxContainer2/PopRadiusSlider" to="." method="_on_pop_radius_slider_value_changed"]
+[connection signal="pressed" from="Container/MarginContainer/VBoxContainer/HBoxContainer3/MinusStrengthBtn" to="." method="_on_minus_button_pressed"]
+[connection signal="pressed" from="Container/MarginContainer/VBoxContainer/HBoxContainer3/PlusStrengthBtn" to="." method="_on_button_plus_pressed"]
+[connection signal="value_changed" from="Container/MarginContainer/VBoxContainer/HBoxContainer4/HSlider" to="." method="_on_spawn_time_slider_value_changed"]
