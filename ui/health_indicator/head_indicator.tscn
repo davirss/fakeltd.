@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs7xwvuylaxsq"]
+
+[ext_resource type="Script" path="res://ui/health_indicator/health_indicator.gd" id="1_7j82a"]
+[ext_resource type="Texture2D" uid="uid://c3srkghac7nyx" path="res://Resources/heart_grey.png" id="2_w0112"]
+
+[node name="HealthIndicator" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7j82a")
+max_hearts = 3
+current_hearts = 3
+columns = 10
+empty_heart_texture = ExtResource("2_w0112")
+
+[node name="HeartsGrid" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 10
